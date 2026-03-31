@@ -41,7 +41,7 @@ export default function LoginScreen() {
     >
       <View style={styles.container}>
 
-        {/* 🔽 Inputs más abajo */}
+      
         <View style={{ marginTop: 80, width: "100%" }}>
           <TextInput
             style={styles.input}
@@ -79,10 +79,10 @@ export default function LoginScreen() {
           <Text style={styles.buttonText}>Entrar</Text>
         </TouchableOpacity>
 
-        {/* 🔥 NUEVO BOTÓN VERDE: ENTRAR SIN CUENTA */}
+        
         <TouchableOpacity
           style={[styles.button, { marginTop: 15 }]}
-          onPress={handleLogin}
+          onPress={() => navigation.navigate("ClientHome")}
         >
           <Text style={styles.buttonText}>Entrar sin cuenta</Text>
         </TouchableOpacity>
