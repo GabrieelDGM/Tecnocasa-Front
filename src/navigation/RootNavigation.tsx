@@ -12,10 +12,10 @@ import ConfirmacionCita from "../screens/ClienteScreens/ConfirmacionCita";
 
 // Tipos de navegación SOLO para lo que usas ahora
 export type RootStackParamList = {
-    Home: { user: any } | undefined;
+    Home:  undefined;
     Login: undefined;
     Register: undefined;
-    ClientHome: undefined;
+    ClientHome: { user: any } | undefined;
     PropertyDetail: { propiedad: any };
     AgendaCita: { propiedad: any /* , usuario: any */ };
     ConfirmacionCita: { propiedad: any; fecha: Date; hora: Date; motivo: string };
