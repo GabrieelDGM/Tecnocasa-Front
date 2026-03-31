@@ -13,10 +13,15 @@ export default function PropertyDetailScreen() {
 
     return (
         <ImageBackground
-            source={require("../../../assets/FondoClienteDos.png")}
+            source={require("../../../assets/FondoClienteUno.png")}
             style={styles.background}
         >
             <View style={styles.container}>
+
+                {/*Botón volver */}
+                <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
+                    <Text style={styles.backText}> Volver</Text>
+                </TouchableOpacity>
 
                 <ScrollView contentContainerStyle={styles.scrollContent}>
 
@@ -47,9 +52,7 @@ export default function PropertyDetailScreen() {
                     {/* Botón agendar */}
                     <TouchableOpacity
                         style={styles.button}
-                        onPress={() => navigation.navigate("AgendaCita", { propiedad /* , usuario */ })}
-
-
+                        onPress={() => navigation.navigate("AgendaCita", { propiedad })}
                     >
                         <Text style={styles.buttonText}>Agenda tu cita</Text>
                     </TouchableOpacity>
@@ -65,13 +68,30 @@ const styles = StyleSheet.create({
     background: {
         flex: 1,
         width: "100%",
-        height: "75%",         
+        height: "100%",
+        resizeMode: "cover",
     },
     container: {
         flex: 1,
-        paddingHorizontal: 20,
-        paddingTop: 175,        
+        paddingHorizontal: 10,
+        paddingTop: 175,
     },
+
+backButton: {
+    position: "absolute",
+    top: 60,
+    right: 10,  
+    paddingVertical: 6,
+    paddingHorizontal: 12,
+    borderRadius: 8,
+    backgroundColor: "#00A86B",
+},
+    backText: {
+        color: "#fff",
+        fontSize: 16,
+        fontWeight: "bold",
+    },
+
     scrollContent: {
         paddingBottom: 40,
     },
@@ -93,7 +113,7 @@ const styles = StyleSheet.create({
     },
     city: {
         fontSize: 16,
-        color: "#555",
+        color: "#000000",
         marginBottom: 20,
     },
     sectionTitle: {
@@ -105,7 +125,7 @@ const styles = StyleSheet.create({
     },
     description: {
         fontSize: 16,
-        color: "#333",
+        color: "#000000",
         lineHeight: 22,
     },
     link: {
