@@ -3,6 +3,8 @@ import { useNavigation } from "@react-navigation/native";
 import { useEffect, useState } from "react";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../../navigation/RootNavigation";
+import { getPropiedades } from "../../api/propiedades.api";
+
 
 type Propiedad = {
     id: number;
@@ -10,7 +12,7 @@ type Propiedad = {
     precio: string;
     ciudad: string;
     tipo: "CASA" | "PISO";
-    imagen_url: string;
+    imagenes: string[];
 };
 
 type NavProp = NativeStackNavigationProp<RootStackParamList, "ClientHome">;
@@ -21,45 +23,25 @@ export default function ClientHomeScreen() {
     const [propiedades, setPropiedades] = useState<Propiedad[]>([]);
     const [propiedadesFiltradas, setPropiedadesFiltradas] = useState<Propiedad[]>([]);
 
-    const propiedadesMock: Propiedad[] = [
-        {
-            id: 1,
-            titulo: "Casa Moderna",
-            precio: "250.000€",
-            ciudad: "Madrid",
-            tipo: "CASA",
-            imagen_url: "https://picsum.photos/300/200?random=1"
-        },
-        {
-            id: 2,
-            titulo: "Apartamento Centro",
-            precio: "180.000€",
-            ciudad: "Barcelona",
-            tipo: "PISO",
-            imagen_url: "https://picsum.photos/300/200?random=2"
-        },
-        {
-            id: 3,
-            titulo: "Chalet Familiar",
-            precio: "320.000€",
-            ciudad: "Valencia",
-            tipo: "CASA",
-            imagen_url: "https://picsum.photos/300/200?random=3"
-        },
-    ];
+    
+    const cargarPropiedades = async () => {
+        try {
+            const data = await getPropiedades();
+            setPropiedades(data);
+            setPropiedadesFiltradas(data); 
+        } catch (error) {
+            console.log("Error cargando propiedades:", error);
+        }
+    };
 
     useEffect(() => {
-        setPropiedades(propiedadesMock);
-        setPropiedadesFiltradas(propiedadesMock); 
+        cargarPropiedades();
     }, []);
 
+    
     const filtrarPorTipo = (tipo: "CASA" | "PISO") => {
         const filtradas = propiedades.filter((p) => p.tipo === tipo);
         setPropiedadesFiltradas(filtradas);
-    };
-
-    const mostrarTodas = () => {
-        setPropiedadesFiltradas(propiedades);
     };
 
     return (
@@ -69,11 +51,11 @@ export default function ClientHomeScreen() {
         >
             <View style={styles.container}>
 
-                <Text style={styles.bienvenida}>Bienvenido Juan</Text>
+                <Text style={styles.bienvenida}>Bienvenido</Text>
 
-                {/* Botones de filtro */}
+                
                 <View style={styles.filterRow}>
-                    <TouchableOpacity style={styles.filterButton} onPress={mostrarTodas}>
+                    <TouchableOpacity style={styles.filterButton} onPress={() => setPropiedadesFiltradas(propiedades)}>
                         <Text style={styles.filterText}>Todos</Text>
                     </TouchableOpacity>
 
@@ -86,6 +68,7 @@ export default function ClientHomeScreen() {
                     </TouchableOpacity>
                 </View>
 
+               
                 <ScrollView contentContainerStyle={styles.grid}>
                     {propiedadesFiltradas.map((item) => (
                         <TouchableOpacity
@@ -94,13 +77,13 @@ export default function ClientHomeScreen() {
                             onPress={() => navigation.navigate("PropertyDetail", { propiedad: item })}
                         >
                             <Image
-                                source={{ uri: item.imagen_url }}
+                                source={{ uri: item.imagenes?.[0] }}
                                 style={styles.cardImage}
                             />
 
                             <View style={styles.cardInfo}>
                                 <Text style={styles.cardTitle}>{item.titulo}</Text>
-                                <Text style={styles.cardPrice}>{item.precio}</Text>
+                                <Text style={styles.cardPrice}>{item.precio}€</Text>
                                 <Text style={styles.cardCity}>{item.ciudad}</Text>
                             </View>
                         </TouchableOpacity>

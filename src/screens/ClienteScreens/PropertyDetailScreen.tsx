@@ -2,14 +2,27 @@ import { View, Text, StyleSheet, ImageBackground, Image, ScrollView, TouchableOp
 import { useRoute, useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../../navigation/RootNavigation";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useEffect, useState } from "react";
 
-// Tipo de navegación
+
 type NavProp = NativeStackNavigationProp<RootStackParamList, "PropertyDetail">;
 
 export default function PropertyDetailScreen() {
     const navigation = useNavigation<NavProp>();
     const route = useRoute();
     const { propiedad }: any = route.params;
+    const [usuario, setUsuario] = useState(null);
+
+    useEffect(() => {
+        const cargarUsuario = async () => {
+            const data = await AsyncStorage.getItem("usuario");
+            if (data) setUsuario(JSON.parse(data));
+        };
+        cargarUsuario();
+    }, []);
+
+
 
     return (
         <ImageBackground
@@ -18,21 +31,34 @@ export default function PropertyDetailScreen() {
         >
             <View style={styles.container}>
 
-                {/*Botón volver */}
+                {/* Botón volver */}
                 <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
-                    <Text style={styles.backText}> Volver</Text>
+                    <Text style={styles.backText}>Volver</Text>
                 </TouchableOpacity>
 
                 <ScrollView contentContainerStyle={styles.scrollContent}>
 
-                    {/* Imagen grande */}
-                    <Image source={{ uri: propiedad.imagen_url }} style={styles.image} />
+                    {/* SLIDER DE IMÁGENES */}
+                    <ScrollView
+                        horizontal
+                        pagingEnabled
+                        showsHorizontalScrollIndicator={false}
+                        style={{ marginBottom: 20 }}
+                    >
+                        {propiedad.imagenes?.map((img: string, index: number) => (
+                            <Image
+                                key={index}
+                                source={{ uri: img }}
+                                style={styles.image}
+                            />
+                        ))}
+                    </ScrollView>
 
                     {/* Título */}
                     <Text style={styles.title}>{propiedad.titulo}</Text>
 
                     {/* Precio */}
-                    <Text style={styles.price}>{propiedad.precio}</Text>
+                    <Text style={styles.price}>{propiedad.precio}€</Text>
 
                     {/* Ciudad */}
                     <Text style={styles.city}>{propiedad.ciudad}</Text>
@@ -45,14 +71,19 @@ export default function PropertyDetailScreen() {
 
                     {/* Ubicación */}
                     <Text style={styles.sectionTitle}>Ubicación</Text>
-                    <TouchableOpacity onPress={() => Linking.openURL(propiedad.ubicacion || "https://maps.app.goo.gl/")}>
+                    <TouchableOpacity onPress={() => Linking.openURL(propiedad.ubicacionGoogle || "https://maps.app.goo.gl/")}>
                         <Text style={styles.link}>Ver en Google Maps</Text>
                     </TouchableOpacity>
 
-                    {/* Botón agendar */}
                     <TouchableOpacity
                         style={styles.button}
-                        onPress={() => navigation.navigate("AgendaCita", { propiedad })}
+                        onPress={() => {
+                            if (!usuario) {
+                                alert("Debes estar registrado para agendar una cita");
+                                return;
+                            }
+                            navigation.navigate("AgendaCita", { propiedad });
+                        }}
                     >
                         <Text style={styles.buttonText}>Agenda tu cita</Text>
                     </TouchableOpacity>
@@ -76,30 +107,28 @@ const styles = StyleSheet.create({
         paddingHorizontal: 10,
         paddingTop: 175,
     },
-
-backButton: {
-    position: "absolute",
-    top: 60,
-    right: 10,  
-    paddingVertical: 6,
-    paddingHorizontal: 12,
-    borderRadius: 8,
-    backgroundColor: "#00A86B",
-},
+    backButton: {
+        position: "absolute",
+        top: 60,
+        right: 10,
+        paddingVertical: 6,
+        paddingHorizontal: 12,
+        borderRadius: 8,
+        backgroundColor: "#00A86B",
+    },
     backText: {
         color: "#fff",
         fontSize: 16,
         fontWeight: "bold",
     },
-
     scrollContent: {
         paddingBottom: 40,
     },
     image: {
-        width: "100%",
+        width: 350,
         height: 250,
         borderRadius: 12,
-        marginBottom: 20,
+        marginRight: 10,
     },
     title: {
         fontSize: 26,

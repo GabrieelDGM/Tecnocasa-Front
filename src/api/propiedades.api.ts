@@ -1,6 +1,8 @@
-import api from "./api";
+import axios from "axios";
 
-export const obtenerPropiedades = async () => {
-    const res = await api.get("/propiedades");
-    return res.data;
+const API_URL = "http://localhost:8080/api/propiedades";
+
+export const getPropiedades = async () => {
+    const response = await axios.get(API_URL);
+    return response.data;
 };
