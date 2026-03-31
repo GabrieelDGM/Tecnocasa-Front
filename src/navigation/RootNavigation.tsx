@@ -12,7 +12,7 @@ import ConfirmacionCita from "../screens/ClienteScreens/ConfirmacionCita";
 
 // Tipos de navegación SOLO para lo que usas ahora
 export type RootStackParamList = {
-    Home: undefined;
+    Home: { user: any } | undefined;
     Login: undefined;
     Register: undefined;
     ClientHome: undefined;

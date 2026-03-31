@@ -11,6 +11,7 @@ import {
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../../navigation/RootNavigation";
+import { loginUsuario } from "../../api/usuarioApi";
 
 type NavProp = NativeStackNavigationProp<RootStackParamList>;
 
@@ -19,6 +20,19 @@ export default function LoginScreen() {
 
   const [usuario, setUsuario] = useState("");
   const [password, setPassword] = useState("");
+
+  // Funcion para manejar el login
+  const handleLogin = async () => {
+    try {
+      const data = await loginUsuario(usuario, password);
+      console.log("Login correcto:", data);
+
+      navigation.navigate("Home", { user: data });
+
+    } catch (error: any) {
+      alert("Credenciales incorrectas");
+    }
+  };
 
   return (
     <ImageBackground
@@ -60,7 +74,7 @@ export default function LoginScreen() {
         {/* Botón principal */}
         <TouchableOpacity
           style={styles.button}
-          onPress={() => navigation.navigate("Home")}
+          onPress={handleLogin}
         >
           <Text style={styles.buttonText}>Entrar</Text>
         </TouchableOpacity>
@@ -68,7 +82,7 @@ export default function LoginScreen() {
         {/* 🔥 NUEVO BOTÓN VERDE: ENTRAR SIN CUENTA */}
         <TouchableOpacity
           style={[styles.button, { marginTop: 15 }]}
-          onPress={() => navigation.navigate("Home")}
+          onPress={handleLogin}
         >
           <Text style={styles.buttonText}>Entrar sin cuenta</Text>
         </TouchableOpacity>
