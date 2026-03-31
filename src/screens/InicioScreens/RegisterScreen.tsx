@@ -12,6 +12,7 @@ import {
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../../navigation/RootNavigation";
+import { registerUsuario } from "../../api/usuarioApi";
 
 type NavProp = NativeStackNavigationProp<RootStackParamList>;
 
@@ -29,20 +30,63 @@ export default function RegisterScreen() {
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
 
+    const handleRegister = async () => {
+
+        if (
+            !usuario ||
+            !nombre ||
+            !apellido ||
+            !dni ||
+            !direccion ||
+            !cp ||
+            !telefono ||
+            !correo ||
+            !password ||
+            !confirmPassword
+        ) {
+            alert("Por favor, completa todos los campos");
+            return;
+        }
+
+        if (password !== confirmPassword) {
+            alert("Las contraseñas no coinciden");
+            return;
+        }
+
+        try {
+            const data = {
+                usuario,
+                nombre,
+                apellido,
+                dni,
+                direccion,
+                codigoPostal: cp,
+                telefono,
+                correo,
+                contrasena: password,
+            };
+
+            await registerUsuario(data);
+
+            alert("Usuario registrado correctamente");
+            navigation.navigate("Login");
+
+        } catch (error: any) {
+            alert("Error al registrar usuario");
+        }
+    };
+
+    // 🔥 AQUÍ VA EL RETURN QUE FALTABA
     return (
         <ImageBackground
             source={require("../../../assets/FondoInicioTres.png")}
             style={styles.background}
         >
-
-            {/* 🔥 TÍTULO FIJO, NO SE MUEVE */}
             <View style={styles.header}>
                 <Text style={styles.title}>Registro</Text>
             </View>
 
-            {/* 🔥 SOLO EL FORMULARIO HACE SCROLL */}
             <ScrollView contentContainerStyle={styles.formContainer}>
-                
                 <TextInput style={styles.input} placeholder="Usuario" placeholderTextColor="#666" value={usuario} onChangeText={setUsuario} />
                 <TextInput style={styles.input} placeholder="Nombre" placeholderTextColor="#666" value={nombre} onChangeText={setNombre} />
                 <TextInput style={styles.input} placeholder="Apellido" placeholderTextColor="#666" value={apellido} onChangeText={setApellido} />
@@ -57,13 +101,11 @@ export default function RegisterScreen() {
 
                 <TouchableOpacity
                     style={styles.button}
-                    onPress={() => navigation.navigate("Login")}
+                    onPress={handleRegister}
                 >
                     <Text style={styles.buttonText}>Confirmar</Text>
                 </TouchableOpacity>
-
             </ScrollView>
-
         </ImageBackground>
     );
 }
@@ -74,27 +116,21 @@ const styles = StyleSheet.create({
         width: "100%",
         height: "100%",
     },
-
-   
     header: {
         paddingTop: 170,
         alignItems: "center",
     },
-
     title: {
         fontSize: 28,
         fontWeight: "bold",
         color: "#00A86B",
         marginBottom: 20,
     },
-
-    
     formContainer: {
         paddingHorizontal: 30,
         paddingBottom: 50,
         alignItems: "center",
     },
-
     input: {
         width: "100%",
         backgroundColor: "rgba(255,255,255,0.9)",
@@ -106,7 +142,6 @@ const styles = StyleSheet.create({
         borderColor: "#00A86B",
         borderWidth: 4,
     },
-
     button: {
         width: "100%",
         backgroundColor: "#00A86B",
@@ -114,7 +149,6 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         marginTop: 10,
     },
-
     buttonText: {
         color: "#fff",
         textAlign: "center",

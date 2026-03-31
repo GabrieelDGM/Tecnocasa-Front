@@ -17,7 +17,7 @@ export type RootStackParamList = {
     Register: undefined;
     ClientHome: undefined;
     PropertyDetail: { propiedad: any };
-    AgendaCita: { propiedad: any /* , usuario: any */ };
+    AgendaCita: { propiedad: any };
     ConfirmacionCita: { propiedad: any; fecha: Date; hora: Date; motivo: string };
 
 };
