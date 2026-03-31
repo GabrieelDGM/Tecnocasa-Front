@@ -27,7 +27,7 @@ export default function LoginScreen() {
       const data = await loginUsuario(usuario, password);
       console.log("Login correcto:", data);
 
-      navigation.navigate("Home", { user: data });
+      navigation.navigate("ClientHome", { user: data });
 
     } catch (error: any) {
       alert("Credenciales incorrectas");
