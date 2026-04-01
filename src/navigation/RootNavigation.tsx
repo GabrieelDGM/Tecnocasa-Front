@@ -10,6 +10,8 @@ import PropertyDetailScreen from "../screens/ClienteScreens/PropertyDetailScreen
 import AgendaCita from "../screens/ClienteScreens/AgendaCita";
 import ConfirmacionCita from "../screens/ClienteScreens/ConfirmacionCita";
 import ConfirmScreen from "../screens/ClienteScreens/ConfirmacionCita";
+import AdminHome from "../screens/AdminScreens/AdminHome";
+import AdminPropiedades from "../screens/AdminScreens/AdminPropiedades";
 
 // Tipos de navegación SOLO para lo que usas ahora
 export type RootStackParamList = {
@@ -29,6 +31,9 @@ export type RootStackParamList = {
         usuarioId: number;
     };
     Confirm: undefined;
+    AdminHome: undefined;
+    AdminPropiedades: undefined;
+    EditarPropiedad: { propiedadId: number };
 
 };
 
@@ -84,8 +89,17 @@ export default function RootNavigator() {
                     component={ConfirmScreen}
                     options={{ headerShown: false }}
                 />
+                <Stack.Screen
+                    name="AdminHome"
+                    component={AdminHome}
+                    options={{ headerShown: false }}
+                />
 
-
+                <Stack.Screen
+                    name="AdminPropiedades"
+                    component={AdminPropiedades}
+                    options={{ headerShown: false }}
+                />
 
             </Stack.Navigator>
         </NavigationContainer>
