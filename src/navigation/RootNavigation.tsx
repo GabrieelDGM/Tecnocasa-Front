@@ -18,7 +18,7 @@ export type RootStackParamList = {
     ClientHome: { user: any } | undefined;
     PropertyDetail: { propiedad: any };
     AgendaCita: { propiedad: any };
-    ConfirmacionCita: { propiedad: any; fecha: Date; hora: Date; motivo: string };
+    ConfirmacionCita: { propiedad: any; fecha: Date; hora: Date; motivo: string, nombre: string, apellido: string, email: string, telefono: string };
 
 };
 

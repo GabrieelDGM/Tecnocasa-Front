@@ -13,6 +13,8 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../../navigation/RootNavigation";
 import { loginUsuario } from "../../api/usuarioApi";
 
+
+
 type NavProp = NativeStackNavigationProp<RootStackParamList>;
 
 export default function LoginScreen() {
@@ -36,7 +38,7 @@ export default function LoginScreen() {
 
   return (
     <ImageBackground
-      source={require("../../../assets/FondoInicioDos.png")}
+      source={require("../../../assets/fondos/FondoInicioDos.png")}
       style={styles.background}
     >
       <View style={styles.container}>

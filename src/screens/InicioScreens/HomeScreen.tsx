@@ -10,7 +10,7 @@ export default function HomeScreen() {
 
   return (
     <ImageBackground
-      source={require("../../../assets/Bienvenidad.png")}
+      source={require("../../../assets/fondos/Bienvenidad.png")}
       style={styles.background}
     >
       <View style={styles.centerContent}>

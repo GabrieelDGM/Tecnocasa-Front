@@ -26,7 +26,7 @@ export default function PropertyDetailScreen() {
 
     return (
         <ImageBackground
-            source={require("../../../assets/FondoClienteUno.png")}
+            source={require("../../../assets/fondos/FondoClienteUno.png")}
             style={styles.background}
         >
             <View style={styles.container}>

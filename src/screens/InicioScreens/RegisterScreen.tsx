@@ -76,10 +76,9 @@ export default function RegisterScreen() {
         }
     };
 
-    // 🔥 AQUÍ VA EL RETURN QUE FALTABA
     return (
         <ImageBackground
-            source={require("../../../assets/FondoInicioTres.png")}
+            source={require("../../../assets/fondos/FondoInicioTres.png")}
             style={styles.background}
         >
             <View style={styles.header}>

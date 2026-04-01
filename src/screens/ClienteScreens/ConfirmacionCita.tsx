@@ -10,14 +10,14 @@ export default function ConfirmScreen() {
 
   return (
     <ImageBackground
-      source={require("../../../assets/FondoClienteUno.png")}
+      source={require("../../../assets/fondos/FondoClienteUno.png")}
       style={styles.background}
     >
       <View style={styles.container}>
 
         {/* Imagen de confirmación */}
         <Image
-          source={require("../../../assets/citaconfirmacion.png")}
+          source={require("../../../assets/fondos/citaconfirmacion.png")}
           style={styles.confirmImage}
           resizeMode="contain"
         />

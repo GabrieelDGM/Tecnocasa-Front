@@ -1,10 +1,8 @@
 import { View, Text, StyleSheet, ImageBackground, TouchableOpacity, ScrollView, TextInput } from "react-native";
 import { useState } from "react";
 import { RouteProp, useRoute, useNavigation } from "@react-navigation/native";
-import DateTimePicker from "@react-native-community/datetimepicker";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../../navigation/RootNavigation";
-
 
 type AgendaCitaRouteProp = RouteProp<RootStackParamList, "AgendaCita">;
 type AgendaCitaNavProp = NativeStackNavigationProp<RootStackParamList, "AgendaCita">;
@@ -15,102 +13,95 @@ export default function AgendaCitaScreen() {
 
     const { propiedad } = route.params;
 
-    const [fecha, setFecha] = useState(new Date());
-    const [hora, setHora] = useState(new Date());
-    const [mostrarFecha, setMostrarFecha] = useState(false);
-    const [mostrarHora, setMostrarHora] = useState(false);
-
+    const [nombre, setNombre] = useState("");
+    const [apellido, setApellido] = useState("");
+    const [email, setEmail] = useState("");
+    const [telefono, setTelefono] = useState("");
     const [motivo, setMotivo] = useState("");
+    const [fecha, setFecha] = useState("");
+    const [hora, setHora] = useState("");
 
-    const confirmarCita = async () => {
-        const payload = {
-            propiedad_id: propiedad.id,
-            fecha: fecha.toISOString().split("T")[0],
-            hora: hora.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
-            motivo: motivo
-        };
-
-        console.log("CITA ENVIADA:", payload);
-        alert("Cita confirmada");
-
+    const confirmarVisual = () => {
         navigation.navigate("ConfirmacionCita", {
             propiedad,
-            fecha,
-            hora,
-            motivo
+            nombre,
+            apellido,
+            email,
+            telefono,
+            motivo,
+            fecha: new Date(fecha),
+            hora: new Date(hora)
         });
-    };  
+    };
 
     return (
         <ImageBackground
-            source={require("../../../assets/FondoClienteUno.png")}
+            source={require("../../../assets/fondos/FondoClienteUno.png")}
             style={styles.background}
         >
-            <ScrollView
-                contentContainerStyle={styles.scrollContent}
-                keyboardShouldPersistTaps="handled"
-            >
+            <ScrollView contentContainerStyle={styles.scrollContent}>
                 <View style={styles.container}>
 
                     <Text style={styles.title}>Agenda tu cita</Text>
 
-                    {/* Selección de fecha */}
-                    <TouchableOpacity onPress={() => setMostrarFecha(true)}>
-                        <Text style={styles.selector}>Fecha: {fecha.toDateString()}</Text>
-                    </TouchableOpacity>
-
-                    {/* Selección de hora */}
-                    <TouchableOpacity onPress={() => setMostrarHora(true)}>
-                        <Text style={styles.selector}>
-                            Hora: {hora.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
-                        </Text>
-                    </TouchableOpacity>
-
-                    {/* Motivo */}
                     <TextInput
                         style={styles.input}
+                        placeholder="Nombre"
+                        value={nombre}
+                        onChangeText={setNombre}
+                    />
+
+                    <TextInput
+                        style={styles.input}
+                        placeholder="Apellido"
+                        value={apellido}
+                        onChangeText={setApellido}
+                    />
+
+                    <TextInput
+                        style={styles.input}
+                        placeholder="Email"
+                        keyboardType="email-address"
+                        value={email}
+                        onChangeText={setEmail}
+                    />
+
+                    <TextInput
+                        style={styles.input}
+                        placeholder="Teléfono"
+                        keyboardType="phone-pad"
+                        value={telefono}
+                        onChangeText={setTelefono}
+                    />
+
+                    <TextInput
+                        style={[styles.input, styles.textArea]}
                         placeholder="Motivo de la cita"
+                        multiline
                         value={motivo}
                         onChangeText={setMotivo}
                     />
 
-                    {/* Botón confirmar */}
-                    <TouchableOpacity style={styles.button} onPress={confirmarCita}>
+                    <TextInput
+                        style={styles.input}
+                        placeholder="Fecha (YYYY-MM-DD)"
+                        value={fecha}
+                        onChangeText={setFecha}
+                    />
+
+                    <TextInput
+                        style={styles.input}
+                        placeholder="Hora (HH:MM)"
+                        value={hora}
+                        onChangeText={setHora}
+                    />
+
+                    <TouchableOpacity style={styles.button} onPress={confirmarVisual}>
                         <Text style={styles.buttonText}>Confirmar cita</Text>
                     </TouchableOpacity>
 
                 </View>
             </ScrollView>
-
-            {/* DateTimePicker fuera del ScrollView → funciona en Android */}
-            {mostrarFecha && (
-                <DateTimePicker
-                    value={fecha}
-                    mode="date"
-                    display="default"
-                    onChange={(event, selected) => {
-                        if (event.type === "set" && selected) {
-                            setFecha(selected);
-                        }
-                        setMostrarFecha(false);
-                    }}
-                />
-            )}
-
-            {mostrarHora && (
-                <DateTimePicker
-                    value={hora}
-                    mode="time"
-                    display="default"
-                    onChange={(event, selected) => {
-                        if (event.type === "set" && selected) {
-                            setHora(selected);
-                        }
-                        setMostrarHora(false);
-                    }}
-                />
-            )}
-
         </ImageBackground>
     );
 }
@@ -135,19 +126,16 @@ const styles = StyleSheet.create({
         color: "#00A86B",
         marginBottom: 30,
     },
-    selector: {
-        backgroundColor: "rgba(255,255,255,0.9)",
-        padding: 15,
-        borderRadius: 10,
-        fontSize: 18,
-        marginBottom: 20,
-    },
     input: {
         backgroundColor: "rgba(255,255,255,0.9)",
         padding: 15,
         borderRadius: 10,
         fontSize: 18,
         marginBottom: 20,
+    },
+    textArea: {
+        height: 120,
+        textAlignVertical: "top",
     },
     button: {
         backgroundColor: "#00A86B",
