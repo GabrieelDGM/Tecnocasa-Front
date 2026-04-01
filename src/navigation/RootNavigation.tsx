@@ -9,16 +9,26 @@ import ClientHomeScreen from "../screens/ClienteScreens/ClienteScreens";
 import PropertyDetailScreen from "../screens/ClienteScreens/PropertyDetailScreen";
 import AgendaCita from "../screens/ClienteScreens/AgendaCita";
 import ConfirmacionCita from "../screens/ClienteScreens/ConfirmacionCita";
+import ConfirmScreen from "../screens/ClienteScreens/ConfirmacionCita";
 
 // Tipos de navegación SOLO para lo que usas ahora
 export type RootStackParamList = {
-    Home:  undefined;
+    Home: undefined;
     Login: undefined;
     Register: undefined;
     ClientHome: { user: any } | undefined;
     PropertyDetail: { propiedad: any };
     AgendaCita: { propiedad: any };
-    ConfirmacionCita: { propiedad: any; fecha: Date; hora: Date; motivo: string, nombre: string, apellido: string, email: string, telefono: string };
+    ConfirmacionCita: {
+        propiedad: any;
+        nombre: string;
+        apellido: string;
+        email: string;
+        telefono: string;
+        motivo: string;
+        usuarioId: number;
+    };
+    Confirm: undefined;
 
 };
 
@@ -66,6 +76,12 @@ export default function RootNavigator() {
                 <Stack.Screen
                     name="ConfirmacionCita"
                     component={ConfirmacionCita}
+                    options={{ headerShown: false }}
+                />
+
+                <Stack.Screen
+                    name="Confirm"
+                    component={ConfirmScreen}
                     options={{ headerShown: false }}
                 />
 

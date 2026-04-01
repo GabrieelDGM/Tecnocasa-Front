@@ -1,8 +1,10 @@
 import { View, Text, StyleSheet, ImageBackground, TouchableOpacity, ScrollView, TextInput } from "react-native";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { RouteProp, useRoute, useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../../navigation/RootNavigation";
+import { crearCita } from "../../api/CitaApi";   
 
 type AgendaCitaRouteProp = RouteProp<RootStackParamList, "AgendaCita">;
 type AgendaCitaNavProp = NativeStackNavigationProp<RootStackParamList, "AgendaCita">;
@@ -18,20 +20,45 @@ export default function AgendaCitaScreen() {
     const [email, setEmail] = useState("");
     const [telefono, setTelefono] = useState("");
     const [motivo, setMotivo] = useState("");
-    const [fecha, setFecha] = useState("");
-    const [hora, setHora] = useState("");
+    const [usuario, setUsuario] = useState<any>(null);
 
-    const confirmarVisual = () => {
-        navigation.navigate("ConfirmacionCita", {
-            propiedad,
-            nombre,
-            apellido,
-            email,
-            telefono,
-            motivo,
-            fecha: new Date(fecha),
-            hora: new Date(hora)
-        });
+    useEffect(() => {
+        const cargarUsuario = async () => {
+            const data = await AsyncStorage.getItem("usuario");
+            if (data) setUsuario(JSON.parse(data));
+        };
+        cargarUsuario();
+    }, []);
+
+    const confirmarVisual = async () => {
+
+        if (!usuario) {
+            alert("Error: no se pudo cargar el usuario");
+            return;
+        }
+
+        try {
+            const data = {
+                nombre,
+                apellido,
+                email,
+                telefono,
+                motivo,
+                propiedadId: propiedad.id,
+                usuarioId: usuario.id
+            };
+
+            console.log("ENVIANDO CITA:", data);
+
+            await crearCita(data);   
+
+            navigation.navigate("Confirm" as never);
+
+
+        } catch (error) {
+            console.log("ERROR AL CREAR CITA:", error);
+            alert("Hubo un error al enviar la cita");
+        }
     };
 
     return (
@@ -80,20 +107,6 @@ export default function AgendaCitaScreen() {
                         multiline
                         value={motivo}
                         onChangeText={setMotivo}
-                    />
-
-                    <TextInput
-                        style={styles.input}
-                        placeholder="Fecha (YYYY-MM-DD)"
-                        value={fecha}
-                        onChangeText={setFecha}
-                    />
-
-                    <TextInput
-                        style={styles.input}
-                        placeholder="Hora (HH:MM)"
-                        value={hora}
-                        onChangeText={setHora}
                     />
 
                     <TouchableOpacity style={styles.button} onPress={confirmarVisual}>

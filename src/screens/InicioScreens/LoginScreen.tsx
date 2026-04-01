@@ -12,6 +12,7 @@ import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../../navigation/RootNavigation";
 import { loginUsuario } from "../../api/usuarioApi";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 
 
@@ -28,6 +29,8 @@ export default function LoginScreen() {
     try {
       const data = await loginUsuario(usuario, password);
       console.log("Login correcto:", data);
+      await AsyncStorage.setItem("usuario", JSON.stringify(data));
+
 
       navigation.navigate("ClientHome", { user: data });
 
