@@ -2,51 +2,35 @@ import { View, Text, StyleSheet, ImageBackground, ScrollView, TouchableOpacity, 
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../../navigation/RootNavigation";
-
+import { useEffect, useState } from "react";
+import { getPropiedades } from "../../api/propiedades.api";
 
 type NavProp = NativeStackNavigationProp<RootStackParamList>;
 
 export default function AdminPropiedadesScreen() {
     const navigation = useNavigation<NavProp>();
 
-    // Datos visuales temporales (luego se reemplazan por la API)
-    const propiedades = [
-        {
-            id: 1,
-            ciudad: "Santa Cruz de Tenerife",
-            zona: "La Salle",
-            precio: "150.000€",
-            imagen: require("../../../assets/propiedades/casaUno.png"),
-        },
-        {
-            id: 2,
-            ciudad: "Los Cristianos",
-            zona: "",
-            precio: "545.000€",
-            imagen: require("../../../assets/propiedades/casaDos.png"),
-        },
-        {
-            id: 3,
-            ciudad: "La Laguna",
-            zona: "La Cuesta",
-            precio: "500€/Mes",
-            imagen: require("../../../assets/propiedades/alquilerDos.png"),
-        },
-        {
-            id: 4,
-            ciudad: "Santa Cruz de Tenerife",
-            zona: "Calle Castillo",
-            precio: "250.000€",
-            imagen: require("../../../assets/propiedades/casaDos.png"),
-        },
-        {
-            id: 5,
-            ciudad: "La Laguna",
-            zona: "San Benito",
-            precio: "400€/Mes",
-            imagen: require("../../../assets/propiedades/alquilerUno.png"),
-        },
-    ];
+    const [propiedades, setPropiedades] = useState([]);
+    const [filtro, setFiltro] = useState("TODOS");
+
+    useEffect(() => {
+        cargarPropiedades();
+    }, []);
+
+    const cargarPropiedades = async () => {
+        try {
+            const data = await getPropiedades();
+            setPropiedades(data);
+        } catch (error) {
+            console.log("Error cargando propiedades:", error);
+        }
+    };
+
+
+    const propiedadesFiltradas = propiedades.filter((p: any) => {
+        if (filtro === "TODOS") return true;
+        return p.tipo?.toUpperCase() === filtro;
+    });
 
     return (
         <ImageBackground
@@ -58,21 +42,45 @@ export default function AdminPropiedadesScreen() {
                 <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
                     <Text style={styles.backText}> Volver</Text>
                 </TouchableOpacity>
+
                 <Text style={styles.title}>Modificar Propiedades</Text>
 
+                {/* BOTONES DE FILTRO */}
+                <View style={styles.filtros}>
+                    <TouchableOpacity onPress={() => setFiltro("TODOS")} style={styles.filtroBtn}>
+                        <Text style={styles.filtroTxt}>Todos</Text>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity onPress={() => setFiltro("CASA")} style={styles.filtroBtn}>
+                        <Text style={styles.filtroTxt}>Casas</Text>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity onPress={() => setFiltro("PISO")} style={styles.filtroBtn}>
+                        <Text style={styles.filtroTxt}>Pisos</Text>
+                    </TouchableOpacity>
+                </View>
+
                 <ScrollView contentContainerStyle={styles.grid}>
-                    {propiedades.map((item) => (
+                    {propiedadesFiltradas.map((item: any) => (
                         <TouchableOpacity
                             key={item.id}
                             style={styles.card}
-                            onPress={() => navigation.navigate("EditarPropiedad", { propiedadId: item.id })}
+                            onPress={() => navigation.navigate("EditarPropiedad", { propiedad: item })}
                         >
-                            <Image source={item.imagen} style={styles.image} />
+                            <Image
+                                source={require("../../../assets/propiedades/casaUno.png")}
+                                style={styles.image}
+                            />
+
                             <View style={styles.info}>
                                 <Text style={styles.location}>
-                                    {item.ciudad}{item.zona ? `, ${item.zona}` : ""}
+                                    {item.ciudad}{item.detalles ? `, ${item.detalles}` : ""}
                                 </Text>
-                                <Text style={styles.price}>{item.precio}</Text>
+
+                                <Text style={styles.price}>
+                                    {item.precio?.toLocaleString("es-ES")} €
+                                </Text>
+
                             </View>
                         </TouchableOpacity>
                     ))}
@@ -100,6 +108,24 @@ const styles = StyleSheet.create({
         marginBottom: 20,
         textAlign: "center",
     },
+
+    
+    filtros: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+        marginBottom: 20,
+    },
+    filtroBtn: {
+        backgroundColor: "#00A86B",
+        paddingVertical: 8,
+        paddingHorizontal: 12,
+        borderRadius: 8,
+    },
+    filtroTxt: {
+        color: "#fff",
+        fontWeight: "600",
+    },
+
     grid: {
         flexDirection: "row",
         flexWrap: "wrap",

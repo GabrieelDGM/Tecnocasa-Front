@@ -38,7 +38,7 @@ export type RootStackParamList = {
         rol: string;
     };
     AdminPropiedades: undefined;
-    EditarPropiedad: { propiedadId: number };
+    EditarPropiedad: { propiedad: number };
 
 };
 
