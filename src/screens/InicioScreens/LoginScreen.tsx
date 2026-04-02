@@ -30,33 +30,36 @@ export default function LoginScreen() {
   // Funcion para manejar el login
   const handleLogin = async () => {
     try {
-      
+
       try {
         const empleado = await loginEmpleado(usuario, password);
         console.log("Empleado logueado:", empleado);
 
         await AsyncStorage.setItem("usuario", JSON.stringify(empleado));
 
-        if (empleado.rol === "ADMIN") {
-          navigation.replace("AdminHome" );
+        if (empleado.rol?.toUpperCase().includes("ADMIN")) {
+          navigation.replace("AdminHome", {
+            nombre: empleado.nombre,
+            apellido: empleado.apellido,
+            rol: empleado.rol,
+          });
           return;
         }
 
-       
-        navigation.replace("AdminHome");
+
+        alert("Este usuario no tiene permisos de administrador");
         return;
 
-      } catch (e) {
-        console.log("No es empleado, probando usuario normal...");
+      } catch (error) {
+        console.log("No es un empleado, intentando como cliente...");
       }
 
-      
       const cliente = await loginUsuario(usuario, password);
       console.log("Cliente logueado:", cliente);
 
       await AsyncStorage.setItem("usuario", JSON.stringify(cliente));
 
-      navigation.replace("ClientHome" , { user: cliente });
+      navigation.replace("ClientHome", { user: cliente });
 
     } catch (error) {
       alert("Credenciales incorrectas");

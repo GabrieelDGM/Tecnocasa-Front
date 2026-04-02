@@ -32,7 +32,11 @@ export type RootStackParamList = {
         usuarioId: number;
     };
     Confirm: undefined;
-    AdminHome: undefined;
+    AdminHome: {
+        nombre: string;
+        apellido: string;
+        rol: string;
+    };
     AdminPropiedades: undefined;
     EditarPropiedad: { propiedadId: number };
 

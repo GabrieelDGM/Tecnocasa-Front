@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet, ImageBackground, TouchableOpacity } from "react-native";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../../navigation/RootNavigation";
 
@@ -7,6 +7,10 @@ type NavProp = NativeStackNavigationProp<RootStackParamList>;
 
 export default function AdminHomeScreen() {
     const navigation = useNavigation<NavProp>();
+    const route = useRoute<any>();
+
+    
+    const { nombre, apellido, rol } = route.params;
 
     return (
         <ImageBackground
@@ -15,15 +19,14 @@ export default function AdminHomeScreen() {
         >
             <View style={styles.container}>
 
+                
                 <View style={styles.headerLeft}>
-                    <Text style={styles.name}>Susana García</Text>
-                    <Text style={styles.role}>Administración</Text>
+                    <Text style={styles.name}>{nombre} {apellido}</Text>
+                    <Text style={styles.role}>{rol}</Text>
                 </View>
 
-                
                 <Text style={styles.sectionTitle}>Funciones</Text>
 
-                
                 <TouchableOpacity
                     style={styles.button}
                     onPress={() => navigation.navigate("AdminPropiedades")}
@@ -31,7 +34,6 @@ export default function AdminHomeScreen() {
                     <Text style={styles.buttonText}>Modificar Propiedades</Text>
                 </TouchableOpacity>
 
-               
                 <Text style={styles.note}>
                     * Este perfil permite editar propiedades del catálogo.
                 </Text>
@@ -52,13 +54,10 @@ const styles = StyleSheet.create({
         paddingTop: 200,
         paddingHorizontal: 25,
     },
-
-   
     headerLeft: {
         alignItems: "flex-start",
         marginBottom: 30,
     },
-
     name: {
         fontSize: 30,
         fontWeight: "bold",
@@ -70,7 +69,6 @@ const styles = StyleSheet.create({
         color: "#00A86B",
         marginBottom: 25,
     },
-
     sectionTitle: {
         fontSize: 30,
         fontWeight: "bold",
@@ -78,14 +76,13 @@ const styles = StyleSheet.create({
         marginBottom: 20,
         textAlign: "left",
     },
-
     button: {
         width: "100%",
         backgroundColor: "rgba(255,255,255,0.9)",
         paddingVertical: 14,
         borderRadius: 10,
         marginBottom: 12,
-        alignSelf: "flex-start", 
+        alignSelf: "flex-start",
     },
     buttonText: {
         textAlign: "center",
@@ -93,7 +90,6 @@ const styles = StyleSheet.create({
         fontWeight: "600",
         color: "#00A86B",
     },
-
     note: {
         marginTop: 40,
         fontSize: 20,
