@@ -36,7 +36,7 @@ export default function LoginScreen() {
         console.log("Empleado logueado:", empleado);
 
         await AsyncStorage.setItem("usuario", JSON.stringify(empleado));
-
+          // Esto lo que hace es evitar conflictos al llamador del rol
         if (empleado.rol?.toUpperCase().includes("ADMIN")) {
           navigation.replace("AdminHome", {
             nombre: empleado.nombre,
