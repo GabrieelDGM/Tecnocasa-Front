@@ -16,41 +16,41 @@ export default function AdminPropiedadesScreen() {
             ciudad: "Santa Cruz de Tenerife",
             zona: "La Salle",
             precio: "150.000€",
-            imagen: require("../../assets/propiedades/casaUno.png"),
+            imagen: require("../../../assets/propiedades/casaUno.png"),
         },
         {
             id: 2,
             ciudad: "Los Cristianos",
             zona: "",
             precio: "545.000€",
-            imagen: require("../../assets/propiedades/casaDos.png"),
+            imagen: require("../../../assets/propiedades/casaDos.png"),
         },
         {
             id: 3,
             ciudad: "La Laguna",
             zona: "La Cuesta",
             precio: "500€/Mes",
-            imagen: require("../../assets/propiedades/alquilerDos.png"),
+            imagen: require("../../../assets/propiedades/alquilerDos.png"),
         },
         {
             id: 4,
             ciudad: "Santa Cruz de Tenerife",
             zona: "Calle Castillo",
             precio: "250.000€",
-            imagen: require("../../assets/propiedades/casaDos.png"),
+            imagen: require("../../../assets/propiedades/casaDos.png"),
         },
         {
             id: 5,
             ciudad: "La Laguna",
             zona: "San Benito",
             precio: "400€/Mes",
-            imagen: require("../../assets/propiedades/alquilerUno.png"),
+            imagen: require("../../../assets/propiedades/alquilerUno.png"),
         },
     ];
 
     return (
         <ImageBackground
-            source={require("../../assets/FondoClienteDos.png")}
+            source={require("../../../assets/fondos/FondoClienteUno.png")}
             style={styles.background}
         >
             <View style={styles.container}>

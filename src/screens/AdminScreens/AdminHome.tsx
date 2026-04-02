@@ -11,16 +11,16 @@ export default function AdminHomeScreen() {
 
     return (
         <ImageBackground
-            source={require("../../assets/FondoClienteDos.png")}
+            source={require("../../../assets/fondos/FondoClienteUno.png")}
             style={styles.background}
         >
             <View style={styles.container}>
 
-                {/* Imagen del administrador */}
+                {/* Imagen del administrador 
                 <Image
-                    source={require("../../assets/susuna.png")}
+                    source={require("../../../assets/susuna.png")}
                     style={styles.profileImage}
-                />
+                />*/}
 
                 <Text style={styles.name}>Susana García</Text>
                 <Text style={styles.role}>Administración</Text>

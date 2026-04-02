@@ -12,6 +12,9 @@ import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../../navigation/RootNavigation";
 import { loginUsuario } from "../../api/usuarioApi";
+import { loginEmpleado } from "../../api/empleadosApi";
+
+
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 
@@ -19,7 +22,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 type NavProp = NativeStackNavigationProp<RootStackParamList>;
 
 export default function LoginScreen() {
-  const navigation = useNavigation<NavProp>(); 
+  const navigation = useNavigation<NavProp>();
 
   const [usuario, setUsuario] = useState("");
   const [password, setPassword] = useState("");
@@ -27,17 +30,39 @@ export default function LoginScreen() {
   // Funcion para manejar el login
   const handleLogin = async () => {
     try {
-      const data = await loginUsuario(usuario, password);
-      console.log("Login correcto:", data);
-      await AsyncStorage.setItem("usuario", JSON.stringify(data));
+      
+      try {
+        const empleado = await loginEmpleado(usuario, password);
+        console.log("Empleado logueado:", empleado);
 
+        await AsyncStorage.setItem("usuario", JSON.stringify(empleado));
 
-      navigation.navigate("ClientHome", { user: data });
+        if (empleado.rol === "ADMIN") {
+          navigation.replace("AdminHome" );
+          return;
+        }
 
-    } catch (error: any) {
+       
+        navigation.replace("AdminHome");
+        return;
+
+      } catch (e) {
+        console.log("No es empleado, probando usuario normal...");
+      }
+
+      
+      const cliente = await loginUsuario(usuario, password);
+      console.log("Cliente logueado:", cliente);
+
+      await AsyncStorage.setItem("usuario", JSON.stringify(cliente));
+
+      navigation.replace("ClientHome" , { user: cliente });
+
+    } catch (error) {
       alert("Credenciales incorrectas");
     }
   };
+
 
   return (
     <ImageBackground
@@ -46,7 +71,7 @@ export default function LoginScreen() {
     >
       <View style={styles.container}>
 
-      
+
         <View style={{ marginTop: 80, width: "100%" }}>
           <TextInput
             style={styles.input}
@@ -84,7 +109,7 @@ export default function LoginScreen() {
           <Text style={styles.buttonText}>Entrar</Text>
         </TouchableOpacity>
 
-        
+
         <TouchableOpacity
           style={[styles.button, { marginTop: 15 }]}
           onPress={() => navigation.navigate("ClientHome")}

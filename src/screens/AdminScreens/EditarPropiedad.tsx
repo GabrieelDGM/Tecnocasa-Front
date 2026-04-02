@@ -21,7 +21,7 @@ export default function EditarPropiedadScreen() {
 
     return (
         <ImageBackground
-            source={require("../../assets/FondoClienteDos.png")}
+            source={require("../../../assets/fondos/FondoClienteDos.png")}
             style={styles.background}
         >
             <View style={styles.container}>

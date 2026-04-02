@@ -14,3 +14,7 @@ export const registerUsuario = async (data: any) => {
   const response = await api.post("/usuarios", data);
   return response.data;
 };
+
+
+
+
