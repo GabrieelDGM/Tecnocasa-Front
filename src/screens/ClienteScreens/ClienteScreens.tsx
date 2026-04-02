@@ -23,12 +23,12 @@ export default function ClientHomeScreen() {
     const [propiedades, setPropiedades] = useState<Propiedad[]>([]);
     const [propiedadesFiltradas, setPropiedadesFiltradas] = useState<Propiedad[]>([]);
 
-    
+
     const cargarPropiedades = async () => {
         try {
             const data = await getPropiedades();
             setPropiedades(data);
-            setPropiedadesFiltradas(data); 
+            setPropiedadesFiltradas(data);
         } catch (error) {
             console.log("Error cargando propiedades:", error);
         }
@@ -38,7 +38,7 @@ export default function ClientHomeScreen() {
         cargarPropiedades();
     }, []);
 
-    
+
     const filtrarPorTipo = (tipo: "CASA" | "PISO") => {
         const filtradas = propiedades.filter((p) => p.tipo === tipo);
         setPropiedadesFiltradas(filtradas);
@@ -53,7 +53,7 @@ export default function ClientHomeScreen() {
 
                 <Text style={styles.bienvenida}>Bienvenido</Text>
 
-                
+
                 <View style={styles.filterRow}>
                     <TouchableOpacity style={styles.filterButton} onPress={() => setPropiedadesFiltradas(propiedades)}>
                         <Text style={styles.filterText}>Todos</Text>
@@ -68,7 +68,7 @@ export default function ClientHomeScreen() {
                     </TouchableOpacity>
                 </View>
 
-               
+
                 <ScrollView contentContainerStyle={styles.grid}>
                     {propiedadesFiltradas.map((item) => (
                         <TouchableOpacity
@@ -83,7 +83,11 @@ export default function ClientHomeScreen() {
 
                             <View style={styles.cardInfo}>
                                 <Text style={styles.cardTitle}>{item.titulo}</Text>
-                                <Text style={styles.cardPrice}>{item.precio}€</Text>
+                                <Text style={styles.cardPrice}>
+                                    {Number(item.precio).toLocaleString("es-ES")} €
+                                </Text>
+
+
                                 <Text style={styles.cardCity}>{item.ciudad}</Text>
                             </View>
                         </TouchableOpacity>

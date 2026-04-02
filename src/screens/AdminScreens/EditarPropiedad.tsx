@@ -1,22 +1,41 @@
-import { View, Text, TextInput, StyleSheet, TouchableOpacity, ImageBackground } from "react-native";
+import { View, Text, TextInput, StyleSheet, TouchableOpacity, ImageBackground, Alert } from "react-native";
 import { useRoute, useNavigation } from "@react-navigation/native";
 import { useState } from "react";
+import { updatePropiedad } from "../../api/propiedades.api";
 
 export default function EditarPropiedadScreen() {
     const route = useRoute<any>();
     const navigation = useNavigation<any>();
 
-    const { propiedadId } = route.params;
+    const { propiedad } = route.params;
 
 
-    const [precio, setPrecio] = useState("");
-    const [descripcion, setDescripcion] = useState("");
-    const [ciudad, setCiudad] = useState("");
-    const [zona, setZona] = useState("");
+    const [precio, setPrecio] = useState(String(propiedad.precio));
+    const [descripcion, setDescripcion] = useState(propiedad.descripcion);
+    const [ciudad, setCiudad] = useState(propiedad.ciudad);
+    const [zona, setZona] = useState(propiedad.detalles);
 
-    const guardarCambios = () => {
-        alert("Cambios guardados (visual)");
-        navigation.goBack();
+    const guardarCambios = async () => {
+        try {
+            const dataActualizada = {
+                tipo: propiedad.tipo,
+                titulo: propiedad.titulo,
+                descripcion,
+                precio: Number(precio),
+                detalles: zona,
+                ciudad,
+                ubicacionGoogle: propiedad.ubicacionGoogle
+            };
+
+            await updatePropiedad(propiedad.id, dataActualizada);
+
+            Alert.alert("Éxito", "Propiedad actualizada correctamente");
+            navigation.goBack();
+
+        } catch (error) {
+            Alert.alert("Error", "No se pudo actualizar la propiedad");
+            console.log(error);
+        }
     };
 
     return (
@@ -28,7 +47,7 @@ export default function EditarPropiedadScreen() {
                 <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
                     <Text style={styles.backText}> Volver</Text>
                 </TouchableOpacity>
-                <Text style={styles.title}>Editar Propiedad {propiedadId}</Text>
+                <Text style={styles.title}>Editar Propiedad {propiedad.titulo}</Text>
 
                 <TextInput
                     style={styles.input}
@@ -92,6 +111,8 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         fontSize: 16,
         marginBottom: 15,
+        borderColor: "#00A86B",
+        borderWidth: 5,
     },
     textArea: {
         height: 120,

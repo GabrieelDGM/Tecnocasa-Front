@@ -58,7 +58,10 @@ export default function PropertyDetailScreen() {
                     <Text style={styles.title}>{propiedad.titulo}</Text>
 
                     {/* Precio */}
-                    <Text style={styles.price}>{propiedad.precio}€</Text>
+                    <Text style={styles.price}>
+                        {Number(propiedad.precio).toLocaleString("es-ES")} €
+                    </Text>
+
 
                     {/* Ciudad */}
                     <Text style={styles.city}>{propiedad.ciudad}</Text>

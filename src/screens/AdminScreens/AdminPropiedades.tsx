@@ -1,8 +1,8 @@
 import { View, Text, StyleSheet, ImageBackground, ScrollView, TouchableOpacity, Image } from "react-native";
-import { useNavigation } from "@react-navigation/native";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../../navigation/RootNavigation";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { getPropiedades } from "../../api/propiedades.api";
 
 type NavProp = NativeStackNavigationProp<RootStackParamList>;
@@ -13,10 +13,11 @@ export default function AdminPropiedadesScreen() {
     const [propiedades, setPropiedades] = useState([]);
     const [filtro, setFiltro] = useState("TODOS");
 
-    useEffect(() => {
-        cargarPropiedades();
-    }, []);
-
+    useFocusEffect(
+        useCallback(() => {
+            cargarPropiedades();
+        }, [])
+    );
     const cargarPropiedades = async () => {
         try {
             const data = await getPropiedades();
@@ -109,7 +110,7 @@ const styles = StyleSheet.create({
         textAlign: "center",
     },
 
-    
+
     filtros: {
         flexDirection: "row",
         justifyContent: "space-between",
