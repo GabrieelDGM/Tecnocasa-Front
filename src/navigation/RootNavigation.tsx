@@ -12,6 +12,7 @@ import ConfirmacionCita from "../screens/ClienteScreens/ConfirmacionCita";
 import ConfirmScreen from "../screens/ClienteScreens/ConfirmacionCita";
 import AdminHome from "../screens/AdminScreens/AdminHome";
 import AdminPropiedades from "../screens/AdminScreens/AdminPropiedades";
+import EditarPropiedad from "../screens/AdminScreens/EditarPropiedad";
 
 // Tipos de navegación SOLO para lo que usas ahora
 export type RootStackParamList = {
@@ -98,6 +99,11 @@ export default function RootNavigator() {
                 <Stack.Screen
                     name="AdminPropiedades"
                     component={AdminPropiedades}
+                    options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                    name="EditarPropiedad"
+                    component={EditarPropiedad}
                     options={{ headerShown: false }}
                 />
 

@@ -21,11 +21,14 @@ export default function EditarPropiedadScreen() {
 
     return (
         <ImageBackground
-            source={require("../../../assets/fondos/FondoClienteDos.png")}
+            source={require("../../../assets/fondos/FondoClienteUno.png")}
             style={styles.background}
         >
             <View style={styles.container}>
-                <Text style={styles.title}>Editar Propiedad #{propiedadId}</Text>
+                <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
+                    <Text style={styles.backText}> Volver</Text>
+                </TouchableOpacity>
+                <Text style={styles.title}>Editar Propiedad {propiedadId}</Text>
 
                 <TextInput
                     style={styles.input}
@@ -59,6 +62,7 @@ export default function EditarPropiedadScreen() {
                 <TouchableOpacity style={styles.button} onPress={guardarCambios}>
                     <Text style={styles.buttonText}>Guardar cambios</Text>
                 </TouchableOpacity>
+
             </View>
         </ImageBackground>
     );
@@ -72,18 +76,18 @@ const styles = StyleSheet.create({
     },
     container: {
         flex: 1,
-        paddingTop: 100,
+        paddingTop: 170,
         paddingHorizontal: 20,
     },
     title: {
         fontSize: 26,
         fontWeight: "bold",
-        color: "#fff",
+        color: "#000000",
         marginBottom: 25,
         textAlign: "center",
     },
     input: {
-        backgroundColor: "rgba(255,255,255,0.9)",
+        backgroundColor: "rgba(255, 255, 255, 0.9)",
         padding: 15,
         borderRadius: 10,
         fontSize: 16,
@@ -104,5 +108,19 @@ const styles = StyleSheet.create({
         textAlign: "center",
         fontSize: 18,
         fontWeight: "bold",
+    },
+    backButton: {
+        position: "absolute",
+        top: 50,
+        right: 20,
+        paddingVertical: 6,
+        paddingHorizontal: 10,
+        backgroundColor: "#00A86B",
+        borderRadius: 8,
+    },
+    backText: {
+        fontSize: 17,
+        fontWeight: "100",
+        color: "#ffffff",
     },
 });
