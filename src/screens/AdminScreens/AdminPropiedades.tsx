@@ -54,6 +54,10 @@ export default function AdminPropiedadesScreen() {
             style={styles.background}
         >
             <View style={styles.container}>
+
+                <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
+                    <Text style={styles.backText}> Volver</Text>
+                </TouchableOpacity>
                 <Text style={styles.title}>Modificar Propiedades</Text>
 
                 <ScrollView contentContainerStyle={styles.grid}>
@@ -86,13 +90,13 @@ const styles = StyleSheet.create({
     },
     container: {
         flex: 1,
-        paddingTop: 80,
+        paddingTop: 200,
         paddingHorizontal: 20,
     },
     title: {
         fontSize: 24,
         fontWeight: "bold",
-        color: "#fff",
+        color: "#000000",
         marginBottom: 20,
         textAlign: "center",
     },
@@ -125,5 +129,19 @@ const styles = StyleSheet.create({
         fontSize: 14,
         color: "#333",
         marginTop: 4,
+    },
+    backButton: {
+        position: "absolute",
+        top: 50,
+        right: 20,
+        paddingVertical: 6,
+        paddingHorizontal: 10,
+        backgroundColor: "#00A86B",
+        borderRadius: 8,
+    },
+    backText: {
+        fontSize: 17,
+        fontWeight: "100",
+        color: "#ffffff",
     },
 });
