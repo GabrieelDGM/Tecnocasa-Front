@@ -1,8 +1,7 @@
-import { View, Text, StyleSheet, ImageBackground, TouchableOpacity, Image } from "react-native";
+import { View, Text, StyleSheet, ImageBackground, TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../../navigation/RootNavigation";
-
 
 type NavProp = NativeStackNavigationProp<RootStackParamList>;
 
@@ -16,18 +15,15 @@ export default function AdminHomeScreen() {
         >
             <View style={styles.container}>
 
-                {/* Imagen del administrador 
-                <Image
-                    source={require("../../../assets/susuna.png")}
-                    style={styles.profileImage}
-                />*/}
+                <View style={styles.headerLeft}>
+                    <Text style={styles.name}>Susana García</Text>
+                    <Text style={styles.role}>Administración</Text>
+                </View>
 
-                <Text style={styles.name}>Susana García</Text>
-                <Text style={styles.role}>Administración</Text>
-
+                
                 <Text style={styles.sectionTitle}>Funciones</Text>
 
-                {/* ÚNICO BOTÓN */}
+                
                 <TouchableOpacity
                     style={styles.button}
                     onPress={() => navigation.navigate("AdminPropiedades")}
@@ -35,6 +31,7 @@ export default function AdminHomeScreen() {
                     <Text style={styles.buttonText}>Modificar Propiedades</Text>
                 </TouchableOpacity>
 
+               
                 <Text style={styles.note}>
                     * Este perfil permite editar propiedades del catálogo.
                 </Text>
@@ -52,48 +49,54 @@ const styles = StyleSheet.create({
     },
     container: {
         flex: 1,
-        alignItems: "center",
-        paddingTop: 175,
-        paddingHorizontal: 20,
+        paddingTop: 200,
+        paddingHorizontal: 25,
     },
-    profileImage: {
-        width: 120,
-        height: 120,
-        borderRadius: 60,
-        marginBottom: 15,
+
+   
+    headerLeft: {
+        alignItems: "flex-start",
+        marginBottom: 30,
     },
+
     name: {
-        fontSize: 26,
+        fontSize: 30,
         fontWeight: "bold",
         color: "#000000",
+        marginBottom: 5,
     },
     role: {
-        fontSize: 18,
+        fontSize: 20,
         color: "#00A86B",
         marginBottom: 25,
     },
+
     sectionTitle: {
-        fontSize: 22,
+        fontSize: 30,
         fontWeight: "bold",
         color: "#000000",
         marginBottom: 20,
+        textAlign: "left",
     },
+
     button: {
         width: "100%",
         backgroundColor: "rgba(255,255,255,0.9)",
         paddingVertical: 14,
         borderRadius: 10,
         marginBottom: 12,
+        alignSelf: "flex-start", 
     },
     buttonText: {
         textAlign: "center",
-        fontSize: 16,
+        fontSize: 20,
         fontWeight: "600",
         color: "#00A86B",
     },
+
     note: {
-        marginTop: 25,
-        fontSize: 18,
+        marginTop: 40,
+        fontSize: 20,
         color: "#000000",
         textAlign: "center",
         opacity: 0.8,
