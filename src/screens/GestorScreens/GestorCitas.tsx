@@ -1,37 +1,43 @@
+import { useEffect, useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView, ImageBackground } from "react-native";
+import { useRoute, useNavigation, RouteProp } from "@react-navigation/native";
+import { RootStackParamList } from "../../navigation/RootNavigation";
+import { getCitasPorGestor } from "../../api/CitaApi";
+
+type Cita = {
+    id: number;
+    nombre: string;
+    apellido: string;
+    telefono: string;
+    email: string;
+    motivo: string;
+    estado: string;
+};
 
 export default function GestorCitas() {
 
+    const route = useRoute<RouteProp<RootStackParamList, "GestorCitas">>();
+    const navigation = useNavigation();
+    const { gestorId } = route.params;
 
-    const citas = [
-        {
-            id: 1,
-            nombre: "Carlos",
-            apellido: "López",
-            telefono: "612345678",
-            email: "carlos@gmail.com",
-            motivo: "Quiere visitar la casa",
-            estado: "PENDIENTE"
-        },
-        {
-            id: 2,
-            nombre: "Ana",
-            apellido: "Martínez",
-            telefono: "698765432",
-            email: "ana@gmail.com",
-            motivo: "Consulta sobre precio",
-            estado: "CONFIRMADA"
-        },
-        {
-            id: 3,
-            nombre: "Luis",
-            apellido: "Santos",
-            telefono: "611223344",
-            email: "luis@gmail.com",
-            motivo: "Quiere ver el piso",
-            estado: "PENDIENTE"
-        }
-    ];
+    const [citas, setCitas] = useState<Cita[]>([]);
+
+    useEffect(() => {
+        const cargarCitas = async () => {
+            try {
+                const data = await getCitasPorGestor(gestorId);
+
+                console.log("CITAS RECIBIDAS:", data);
+
+                
+                setCitas(Array.isArray(data) ? data : []);
+            } catch (error) {
+                console.log("Error cargando citas:", error);
+            }
+        };
+
+        cargarCitas();
+    }, []);
 
     return (
         <ImageBackground
@@ -40,11 +46,17 @@ export default function GestorCitas() {
         >
             <ScrollView contentContainerStyle={styles.container}>
 
-                <TouchableOpacity style={styles.backButton}>
+                <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
                     <Text style={styles.backText}>Volver</Text>
                 </TouchableOpacity>
 
                 <Text style={styles.title}>Citas asignadas</Text>
+
+                {citas.length === 0 && (
+                    <Text style={{ fontSize: 18, color: "#444", marginTop: 20 }}>
+                        No hay citas asignadas.
+                    </Text>
+                )}
 
                 {citas.map((cita) => (
                     <TouchableOpacity
@@ -73,7 +85,7 @@ export default function GestorCitas() {
                             styles.cardEstado,
                             cita.estado === "CONFIRMADA" ? styles.estadoConfirmada : styles.estadoPendiente
                         ]}>
-                            {cita.estado === "CONFIRMADA" ? " Confirmada" : " Pendiente"}
+                            {cita.estado}
                         </Text>
                     </TouchableOpacity>
                 ))}
@@ -91,7 +103,7 @@ const styles = StyleSheet.create({
     },
 
     container: {
-        paddingTop: 150,
+        paddingTop: 170,
         paddingHorizontal: 20,
         paddingBottom: 40
     },

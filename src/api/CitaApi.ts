@@ -6,3 +6,8 @@ export const crearCita = async (data: any) => {
     const response = await axios.post(API_URL, data);
     return response.data;
 };
+
+export const getCitasPorGestor = async (gestorId: number) => {
+    const response = await axios.get(`${API_URL}/gestor/${gestorId}`);
+    return response.data;
+};

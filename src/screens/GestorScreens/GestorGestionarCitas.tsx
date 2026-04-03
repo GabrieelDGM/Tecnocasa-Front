@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
     },
     container: {
         flex: 1,
-        paddingTop: 150,
+        paddingTop: 170,
         paddingHorizontal: 20
     },
     title: {
