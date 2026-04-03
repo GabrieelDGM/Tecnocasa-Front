@@ -1,14 +1,48 @@
-import { View, Text, StyleSheet, TouchableOpacity, ImageBackground } from "react-native";
+import { View, Text, StyleSheet, Pressable, ImageBackground, Alert } from "react-native";
+import { useRoute, useNavigation, RouteProp } from "@react-navigation/native";
+import { RootStackParamList } from "../../navigation/RootNavigation";
+import { confirmarCita, eliminarCita } from "../../api/CitaApi";
 
 export default function GestorGestionarCitas() {
 
-    // Datos falsos solo para visual
-    const cita = {
-        nombre: "Carlos",
-        apellido: "López",
-        telefono: "612345678",
-        email: "carlos@gmail.com",
-        motivo: "Quiere visitar la casa"
+    const route = useRoute<RouteProp<RootStackParamList, "GestionCita">>();
+    const navigation = useNavigation();
+
+    const { cita } = route.params;
+
+    const handleConfirmar = async () => {
+        try {
+            await confirmarCita(cita.id);
+            Alert.alert("Éxito", "La cita ha sido confirmada.");
+            navigation.goBack();
+        } catch (error) {
+            Alert.alert("Error", "No se pudo confirmar la cita.");
+            console.log(error);
+        }
+    };
+
+    const handleEliminar = async () => {
+        Alert.alert(
+            "Eliminar cita",
+            "¿Seguro que deseas eliminar esta cita?",
+            [
+                { text: "Cancelar", style: "cancel" },
+                {
+                    text: "Eliminar",
+                    style: "destructive",
+                    onPress: async () => {
+                        try {
+                            await eliminarCita(cita.id);
+                            Alert.alert("Eliminada", "La cita ha sido eliminada.");
+                            navigation.goBack();
+                        } catch (error) {
+                            Alert.alert("Error", "No se pudo eliminar la cita.");
+                            console.log(error);
+                        }
+                    }
+                }
+            ]
+        );
     };
 
     return (
@@ -18,15 +52,18 @@ export default function GestorGestionarCitas() {
         >
             <View style={styles.container}>
 
-                <TouchableOpacity style={styles.backButton}>
+                <Pressable style={styles.backButton} onPress={() => navigation.goBack()}>
                     <Text style={styles.backText}>Volver</Text>
-                </TouchableOpacity>
+                </Pressable>
 
                 <Text style={styles.title}>Gestión de cita</Text>
 
                 <View style={styles.card}>
                     <Text style={styles.label}>Cliente:</Text>
                     <Text style={styles.value}>{cita.nombre} {cita.apellido}</Text>
+
+                    <Text style={styles.label}>Propiedad:</Text>
+                    <Text style={styles.value}>{cita.propiedadTitulo}</Text>
 
                     <Text style={styles.label}>Teléfono:</Text>
                     <Text style={styles.value}>{cita.telefono}</Text>
@@ -36,21 +73,23 @@ export default function GestorGestionarCitas() {
 
                     <Text style={styles.label}>Motivo:</Text>
                     <Text style={styles.value}>{cita.motivo}</Text>
+
+                    <Text style={styles.label}>Estado actual:</Text>
+                    <Text style={styles.value}>{cita.estado}</Text>
                 </View>
 
-                <TouchableOpacity style={styles.confirmButton}>
+                <Pressable style={styles.confirmButton} onPress={handleConfirmar}>
                     <Text style={styles.buttonText}>Confirmar cita</Text>
-                </TouchableOpacity>
+                </Pressable>
 
-                <TouchableOpacity style={styles.deleteButton}>
+                <Pressable style={styles.deleteButton} onPress={handleEliminar}>
                     <Text style={styles.buttonText}>Eliminar cita</Text>
-                </TouchableOpacity>
+                </Pressable>
 
             </View>
         </ImageBackground>
     );
 }
-
 const styles = StyleSheet.create({
     background: {
         flex: 1,

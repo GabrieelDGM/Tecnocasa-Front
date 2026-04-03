@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView, ImageBackground } from "react-native";
-import { useRoute, useNavigation, RouteProp } from "@react-navigation/native";
+import { View, Text, StyleSheet, Pressable, ScrollView, ImageBackground } from "react-native";
+import { useRoute, useNavigation, RouteProp, NavigationProp } from "@react-navigation/native";
 import { RootStackParamList } from "../../navigation/RootNavigation";
 import { getCitasPorGestor } from "../../api/CitaApi";
 
@@ -12,12 +12,14 @@ type Cita = {
     email: string;
     motivo: string;
     estado: string;
+    propiedadId: number;
+    propiedadTitulo: string;
 };
 
 export default function GestorCitas() {
 
     const route = useRoute<RouteProp<RootStackParamList, "GestorCitas">>();
-    const navigation = useNavigation();
+    const navigation = useNavigation<NavigationProp<RootStackParamList>>();
     const { gestorId } = route.params;
 
     const [citas, setCitas] = useState<Cita[]>([]);
@@ -26,10 +28,7 @@ export default function GestorCitas() {
         const cargarCitas = async () => {
             try {
                 const data = await getCitasPorGestor(gestorId);
-
                 console.log("CITAS RECIBIDAS:", data);
-
-                
                 setCitas(Array.isArray(data) ? data : []);
             } catch (error) {
                 console.log("Error cargando citas:", error);
@@ -46,9 +45,9 @@ export default function GestorCitas() {
         >
             <ScrollView contentContainerStyle={styles.container}>
 
-                <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
+                <Pressable style={styles.backButton} onPress={() => navigation.goBack()}>
                     <Text style={styles.backText}>Volver</Text>
-                </TouchableOpacity>
+                </Pressable>
 
                 <Text style={styles.title}>Citas asignadas</Text>
 
@@ -59,12 +58,17 @@ export default function GestorCitas() {
                 )}
 
                 {citas.map((cita) => (
-                    <TouchableOpacity
+                    <Pressable
                         key={cita.id}
                         style={styles.card}
-                        onPress={() => console.log("Ir a gestionar cita")}
+                        onPress={() => navigation.navigate("GestionCita", { cita })}
                     >
                         <Text style={styles.cardTitle}>{cita.nombre} {cita.apellido}</Text>
+
+                        <View style={styles.row}>
+                            <Text style={styles.cardLabel}>Propiedad:</Text>
+                            <Text style={styles.cardValue}>{cita.propiedadTitulo}</Text>
+                        </View>
 
                         <View style={styles.row}>
                             <Text style={styles.cardLabel}>Tel:</Text>
@@ -76,25 +80,19 @@ export default function GestorCitas() {
                             <Text style={styles.cardValue}>{cita.email}</Text>
                         </View>
 
-                        <View style={styles.row}>
-                            <Text style={styles.cardLabel}>Motivo:</Text>
-                            <Text style={styles.cardValue}>{cita.motivo}</Text>
-                        </View>
-
                         <Text style={[
                             styles.cardEstado,
                             cita.estado === "CONFIRMADA" ? styles.estadoConfirmada : styles.estadoPendiente
                         ]}>
                             {cita.estado}
                         </Text>
-                    </TouchableOpacity>
+                    </Pressable>
                 ))}
 
             </ScrollView>
         </ImageBackground>
     );
 }
-
 const styles = StyleSheet.create({
     background: {
         flex: 1,

@@ -11,3 +11,13 @@ export const getCitasPorGestor = async (gestorId: number) => {
     const response = await axios.get(`${API_URL}/gestor/${gestorId}`);
     return response.data;
 };
+export const confirmarCita = async (id: number) => {
+    const response = await axios.put(`${API_URL}/${id}/confirmar`);
+    return response.data;
+};
+
+
+export const eliminarCita = async (id: number) => {
+    const response = await axios.delete(`${API_URL}/${id}`);
+    return response.data;
+};
