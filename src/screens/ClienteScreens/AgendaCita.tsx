@@ -4,7 +4,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { RouteProp, useRoute, useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../../navigation/RootNavigation";
-import { crearCita } from "../../api/CitaApi";   
+import { crearCita } from "../../api/CitaApi";
 
 type AgendaCitaRouteProp = RouteProp<RootStackParamList, "AgendaCita">;
 type AgendaCitaNavProp = NativeStackNavigationProp<RootStackParamList, "AgendaCita">;
@@ -50,7 +50,7 @@ export default function AgendaCitaScreen() {
 
             console.log("ENVIANDO CITA:", data);
 
-            await crearCita(data);   
+            await crearCita(data);
 
             navigation.navigate("Confirm" as never);
 
@@ -68,6 +68,10 @@ export default function AgendaCitaScreen() {
         >
             <ScrollView contentContainerStyle={styles.scrollContent}>
                 <View style={styles.container}>
+                    <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
+                        <Text style={styles.backText}>Volver</Text>
+                    </TouchableOpacity>
+
 
                     <Text style={styles.title}>Agenda tu cita</Text>
 
@@ -140,11 +144,13 @@ const styles = StyleSheet.create({
         marginBottom: 30,
     },
     input: {
-        backgroundColor: "rgba(255,255,255,0.9)",
+        backgroundColor: "rgba(255, 255, 255, 0.9)",
         padding: 15,
         borderRadius: 10,
         fontSize: 18,
         marginBottom: 20,
+        borderColor: "#00A86B",
+        borderWidth: 2,
     },
     textArea: {
         height: 120,
@@ -162,4 +168,20 @@ const styles = StyleSheet.create({
         fontSize: 20,
         fontWeight: "bold",
     },
+    backButton: {
+        position: "absolute",
+        top: 10,
+        right: 20,
+        paddingVertical: 6,
+        paddingHorizontal: 10,
+        backgroundColor: "#00A86B",
+        borderRadius: 8,
+        zIndex: 10,
+    },
+    backText: {
+        fontSize: 17,
+        fontWeight: "100",
+        color: "#ffffff",
+    },
+
 });
