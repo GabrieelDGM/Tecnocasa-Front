@@ -13,6 +13,9 @@ import ConfirmScreen from "../screens/ClienteScreens/ConfirmacionCita";
 import AdminHome from "../screens/AdminScreens/AdminHome";
 import AdminPropiedades from "../screens/AdminScreens/AdminPropiedades";
 import EditarPropiedad from "../screens/AdminScreens/EditarPropiedad";
+import GestorHome from "../screens/GestorScreens/GestorHome";
+import GestorGestionarCitas from "../screens/GestorScreens/GestorGestionarCitas";
+import GestorCitas from "../screens/GestorScreens/GestorCitas";
 
 // Tipos de navegación SOLO para lo que usas ahora
 export type RootStackParamList = {
@@ -39,6 +42,11 @@ export type RootStackParamList = {
     };
     AdminPropiedades: undefined;
     EditarPropiedad: { propiedad: number };
+
+    GestorHome: undefined;
+    GestorCitas: undefined;
+    GestionCita: { cita: any };
+
 
 };
 
@@ -110,6 +118,24 @@ export default function RootNavigator() {
                     component={EditarPropiedad}
                     options={{ headerShown: false }}
                 />
+                <Stack.Screen
+                    name="GestorHome"
+                    component={GestorHome}
+                    options={{ headerShown: false }}
+                />
+
+                <Stack.Screen
+                    name="GestorCitas"
+                    component={GestorCitas}
+                    options={{ headerShown: false }}
+                />
+
+                <Stack.Screen
+                    name="GestionCita"
+                    component={GestorGestionarCitas}
+                    options={{ headerShown: false }}
+                />
+
 
             </Stack.Navigator>
         </NavigationContainer>

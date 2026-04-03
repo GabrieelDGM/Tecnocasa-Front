@@ -2,7 +2,7 @@ import { View, Text, StyleSheet, TouchableOpacity, ScrollView, ImageBackground }
 
 export default function GestorCitas() {
 
-    
+
     const citas = [
         {
             id: 1,
@@ -73,7 +73,7 @@ export default function GestorCitas() {
                             styles.cardEstado,
                             cita.estado === "CONFIRMADA" ? styles.estadoConfirmada : styles.estadoPendiente
                         ]}>
-                            {cita.estado === "CONFIRMADA" ? "✔ Confirmada" : "⏳ Pendiente"}
+                            {cita.estado === "CONFIRMADA" ? " Confirmada" : " Pendiente"}
                         </Text>
                     </TouchableOpacity>
                 ))}
@@ -84,7 +84,11 @@ export default function GestorCitas() {
 }
 
 const styles = StyleSheet.create({
-    background: { flex: 1, width: "100%", height: "100%" },
+    background: {
+        flex: 1,
+        width: "100%",
+        height: "100%"
+    },
 
     container: {
         paddingTop: 150,
