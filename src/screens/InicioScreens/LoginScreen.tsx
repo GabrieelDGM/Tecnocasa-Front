@@ -30,14 +30,18 @@ export default function LoginScreen() {
   // Funcion para manejar el login
   const handleLogin = async () => {
     try {
-
+      // Intentar login como empleado (ADMIN o GESTOR)
       try {
         const empleado = await loginEmpleado(usuario, password);
         console.log("Empleado logueado:", empleado);
+        console.log("Tipo de gestor:", empleado.tipoGestor);
 
         await AsyncStorage.setItem("usuario", JSON.stringify(empleado));
-          // Esto lo que hace es evitar conflictos al llamador del rol
-        if (empleado.rol?.toUpperCase().includes("ADMIN")) {
+
+        const rol = empleado.rol?.toUpperCase();
+
+        // Login del admin
+        if (rol === "ADMIN") {
           navigation.replace("AdminHome", {
             nombre: empleado.nombre,
             apellido: empleado.apellido,
@@ -46,83 +50,94 @@ export default function LoginScreen() {
           return;
         }
 
+        // Loign del gestor 
+        if (rol === "GESTOR") {
+          navigation.replace("GestorHome", {
+            id: empleado.id,
+            nombre: empleado.nombre,
+            apellido: empleado.apellido,
+            tipoGestor: empleado.tipoGestor ?? empleado.tipo_gestor,
 
-        alert("Este usuario no tiene permisos de administrador");
+          });
         return;
-
-      } catch (error) {
-        console.log("No es un empleado, intentando como cliente...");
       }
 
-      const cliente = await loginUsuario(usuario, password);
-      console.log("Cliente logueado:", cliente);
-
-      await AsyncStorage.setItem("usuario", JSON.stringify(cliente));
-
-      navigation.replace("ClientHome", { user: cliente });
+        alert("Rol de empleado no reconocido");
+      return;
 
     } catch (error) {
-      alert("Credenciales incorrectas");
+      console.log("No es un empleado, intentando como cliente...");
     }
-  };
+
+    // Login del cliente
+    const cliente = await loginUsuario(usuario, password);
+    console.log("Cliente logueado:", cliente);
+
+    await AsyncStorage.setItem("usuario", JSON.stringify(cliente));
+
+    navigation.replace("ClientHome", { user: cliente });
+
+  } catch (error) {
+    alert("Credenciales incorrectas");
+  }
+};
+
+return (
+  <ImageBackground
+    source={require("../../../assets/fondos/FondoInicioDos.png")}
+    style={styles.background}
+  >
+    <View style={styles.container}>
 
 
-  return (
-    <ImageBackground
-      source={require("../../../assets/fondos/FondoInicioDos.png")}
-      style={styles.background}
-    >
-      <View style={styles.container}>
+      <View style={{ marginTop: 80, width: "100%" }}>
+        <TextInput
+          style={styles.input}
+          placeholder="Usuario"
+          placeholderTextColor="#666"
+          value={usuario}
+          onChangeText={setUsuario}
+        />
 
-
-        <View style={{ marginTop: 80, width: "100%" }}>
-          <TextInput
-            style={styles.input}
-            placeholder="Usuario"
-            placeholderTextColor="#666"
-            value={usuario}
-            onChangeText={setUsuario}
-          />
-
-          <TextInput
-            style={styles.input}
-            placeholder="Contraseña"
-            placeholderTextColor="#666"
-            secureTextEntry
-            value={password}
-            onChangeText={setPassword}
-          />
-        </View>
-
-        <View style={styles.linksRow}>
-          <TouchableOpacity onPress={() => navigation.navigate("Register")}>
-            <Text style={styles.linkText}>Registrarse</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity>
-            <Text style={styles.linkText}>¿Olvidó Contraseña?</Text>
-          </TouchableOpacity>
-        </View>
-
-        {/* Botón principal */}
-        <TouchableOpacity
-          style={styles.button}
-          onPress={handleLogin}
-        >
-          <Text style={styles.buttonText}>Entrar</Text>
-        </TouchableOpacity>
-
-
-        <TouchableOpacity
-          style={[styles.button, { marginTop: 15 }]}
-          onPress={() => navigation.navigate("ClientHome")}
-        >
-          <Text style={styles.buttonText}>Entrar sin cuenta</Text>
-        </TouchableOpacity>
-
+        <TextInput
+          style={styles.input}
+          placeholder="Contraseña"
+          placeholderTextColor="#666"
+          secureTextEntry
+          value={password}
+          onChangeText={setPassword}
+        />
       </View>
-    </ImageBackground>
-  );
+
+      <View style={styles.linksRow}>
+        <TouchableOpacity onPress={() => navigation.navigate("Register")}>
+          <Text style={styles.linkText}>Registrarse</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity>
+          <Text style={styles.linkText}>¿Olvidó Contraseña?</Text>
+        </TouchableOpacity>
+      </View>
+
+      {/* Botón principal */}
+      <TouchableOpacity
+        style={styles.button}
+        onPress={handleLogin}
+      >
+        <Text style={styles.buttonText}>Entrar</Text>
+      </TouchableOpacity>
+
+
+      <TouchableOpacity
+        style={[styles.button, { marginTop: 15 }]}
+        onPress={() => navigation.navigate("ClientHome")}
+      >
+        <Text style={styles.buttonText}>Entrar sin cuenta</Text>
+      </TouchableOpacity>
+
+    </View>
+  </ImageBackground>
+);
 }
 
 const styles = StyleSheet.create({

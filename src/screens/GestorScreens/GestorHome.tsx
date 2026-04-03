@@ -1,12 +1,15 @@
 import { View, Text, StyleSheet, TouchableOpacity, ImageBackground } from "react-native";
+import { useRoute, useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { RootStackParamList } from "../../navigation/RootNavigation";
+
+type NavProp = NativeStackNavigationProp<RootStackParamList, "GestorHome">;
+
 export default function GestorHomeScreen() {
 
-    // Visual
-    const gestor = {
-        nombre: "Manuel",
-        apellido: "García",
-        rol: "GESTOR_CASAS"
-    };
+    const navigation = useNavigation<NavProp>();
+    const route = useRoute();
+       const { id, nombre, apellido, tipoGestor } = route.params as RootStackParamList["GestorHome"];
 
     return (
         <ImageBackground
@@ -19,15 +22,15 @@ export default function GestorHomeScreen() {
 
                 <View style={styles.card}>
                     <Text style={styles.label}>Nombre:</Text>
-                    <Text style={styles.value}>{gestor.nombre} {gestor.apellido}</Text>
+                    <Text style={styles.value}>{nombre} {apellido}</Text>
 
-                    <Text style={styles.label}>Rol:</Text>
-                    <Text style={styles.value}>{gestor.rol}</Text>
+                    <Text style={styles.label}>Tipo de gestor:</Text>
+                    <Text style={styles.value}>{tipoGestor}</Text>
                 </View>
 
                 <TouchableOpacity
                     style={styles.button}
-                    onPress={() => console.log("Ir a citas")}
+                    onPress={() => navigation.navigate("GestorCitas", { gestorId: id })}
                 >
                     <Text style={styles.buttonText}>Ver citas</Text>
                 </TouchableOpacity>
@@ -37,6 +40,7 @@ export default function GestorHomeScreen() {
     );
 }
 
+
 const styles = StyleSheet.create({
     background: {
         flex: 1,
@@ -45,7 +49,7 @@ const styles = StyleSheet.create({
     },
     container: {
         flex: 1,
-        paddingTop: 150,
+        paddingTop: 170,
         paddingHorizontal: 20
     },
     title: {
@@ -62,8 +66,7 @@ const styles = StyleSheet.create({
         borderWidth: 2,
         borderColor: "#00A86B"
     },
-    label:
-    {
+    label: {
         fontSize: 18,
         fontWeight: "bold",
         color: "#333"

@@ -43,9 +43,18 @@ export type RootStackParamList = {
     AdminPropiedades: undefined;
     EditarPropiedad: { propiedad: number };
 
-    GestorHome: undefined;
-    GestorCitas: undefined;
-    GestionCita: { cita: any };
+    GestorHome: {
+        id: number;
+        nombre: string;
+        apellido: string;
+        tipoGestor: string;
+    };
+    GestorCitas: {
+        gestorId: number;
+    };
+    GestionCita: {
+        cita: any;
+    };
 
 
 };
