@@ -9,7 +9,7 @@ export default function AdminHomeScreen() {
     const navigation = useNavigation<NavProp>();
     const route = useRoute<any>();
 
-    
+
     const { nombre, apellido, rol } = route.params;
 
     return (
@@ -18,8 +18,20 @@ export default function AdminHomeScreen() {
             style={styles.background}
         >
             <View style={styles.container}>
+                <TouchableOpacity
+                    style={styles.logoutButton}
+                    onPress={() => {
+                        navigation.reset({
+                            index: 0,
+                            routes: [{ name: "Login" }],
+                        });
+                    }}
+                >
+                    <Text style={styles.logoutText}>Cerrar sesión</Text>
+                </TouchableOpacity>
 
-                
+
+
                 <View style={styles.headerLeft}>
                     <Text style={styles.name}>{nombre} {apellido}</Text>
                     <Text style={styles.role}>{rol}</Text>
@@ -96,5 +108,20 @@ const styles = StyleSheet.create({
         color: "#000000",
         textAlign: "center",
         opacity: 0.8,
+    },
+    logoutButton: {
+        position: "absolute",
+        top: 50,
+        right: 20,
+        backgroundColor: "#00A86B",
+        paddingVertical: 6,
+        paddingHorizontal: 12,
+        borderRadius: 8,
+        zIndex: 20,
+    },
+    logoutText: {
+        color: "white",
+        fontSize: 16,
+        fontWeight: "bold",
     },
 });

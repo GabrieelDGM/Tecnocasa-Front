@@ -52,6 +52,17 @@ export default function ClientHomeScreen() {
             <View style={styles.container}>
 
                 <Text style={styles.bienvenida}>Bienvenido</Text>
+                <TouchableOpacity
+                    style={styles.logoutButton}
+                    onPress={() => {
+                        navigation.reset({
+                            index: 0,
+                            routes: [{ name: "Login" }],
+                        });
+                    }}
+                >
+                    <Text style={styles.logoutText}>Cerrar sesión</Text>
+                </TouchableOpacity>
 
 
                 <View style={styles.filterRow}>
@@ -167,4 +178,20 @@ const styles = StyleSheet.create({
         color: "#555",
         marginTop: 5,
     },
+    logoutButton: {
+        position: "absolute",
+        top: 50,
+        right: 20,
+        backgroundColor: "#00A86B",
+        paddingVertical: 6,
+        paddingHorizontal: 12,
+        borderRadius: 8,
+        zIndex: 20,
+    },
+    logoutText: {
+        color: "white",
+        fontSize: 16,
+        fontWeight: "bold",
+    },
+
 });

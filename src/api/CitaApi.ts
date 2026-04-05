@@ -16,8 +16,3 @@ export const confirmarCita = async (id: number) => {
     return response.data;
 };
 
-
-export const eliminarCita = async (id: number) => {
-    const response = await axios.delete(`${API_URL}/${id}`);
-    return response.data;
-};

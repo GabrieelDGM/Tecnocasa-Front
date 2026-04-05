@@ -1,7 +1,7 @@
 import { View, Text, StyleSheet, Pressable, ImageBackground, Alert } from "react-native";
 import { useRoute, useNavigation, RouteProp } from "@react-navigation/native";
 import { RootStackParamList } from "../../navigation/RootNavigation";
-import { confirmarCita, eliminarCita } from "../../api/CitaApi";
+import { confirmarCita } from "../../api/CitaApi";
 
 export default function GestorGestionarCitas() {
 
@@ -19,30 +19,6 @@ export default function GestorGestionarCitas() {
             Alert.alert("Error", "No se pudo confirmar la cita.");
             console.log(error);
         }
-    };
-
-    const handleEliminar = async () => {
-        Alert.alert(
-            "Eliminar cita",
-            "¿Seguro que deseas eliminar esta cita?",
-            [
-                { text: "Cancelar", style: "cancel" },
-                {
-                    text: "Eliminar",
-                    style: "destructive",
-                    onPress: async () => {
-                        try {
-                            await eliminarCita(cita.id);
-                            Alert.alert("Eliminada", "La cita ha sido eliminada.");
-                            navigation.goBack();
-                        } catch (error) {
-                            Alert.alert("Error", "No se pudo eliminar la cita.");
-                            console.log(error);
-                        }
-                    }
-                }
-            ]
-        );
     };
 
     return (
@@ -82,14 +58,11 @@ export default function GestorGestionarCitas() {
                     <Text style={styles.buttonText}>Confirmar cita</Text>
                 </Pressable>
 
-                <Pressable style={styles.deleteButton} onPress={handleEliminar}>
-                    <Text style={styles.buttonText}>Eliminar cita</Text>
-                </Pressable>
-
             </View>
         </ImageBackground>
     );
 }
+
 const styles = StyleSheet.create({
     background: {
         flex: 1,
@@ -132,11 +105,6 @@ const styles = StyleSheet.create({
         paddingVertical: 15,
         borderRadius: 10,
         marginBottom: 15,
-    },
-    deleteButton: {
-        backgroundColor: "#D9534F",
-        paddingVertical: 15,
-        borderRadius: 10,
     },
     buttonText: {
         color: "white",

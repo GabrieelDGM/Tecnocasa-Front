@@ -41,7 +41,7 @@ export default function LoginScreen() {
         const rol = empleado.rol?.toUpperCase();
 
         // Login del admin
-        if (rol === "ADMIN") {
+        if (rol === "ADMINISTRADOR") {
           navigation.replace("AdminHome", {
             nombre: empleado.nombre,
             apellido: empleado.apellido,

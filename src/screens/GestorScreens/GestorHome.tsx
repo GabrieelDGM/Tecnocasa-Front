@@ -9,7 +9,7 @@ export default function GestorHomeScreen() {
 
     const navigation = useNavigation<NavProp>();
     const route = useRoute();
-       const { id, nombre, apellido, tipoGestor } = route.params as RootStackParamList["GestorHome"];
+    const { id, nombre, apellido, tipoGestor } = route.params as RootStackParamList["GestorHome"];
 
     return (
         <ImageBackground
@@ -17,6 +17,18 @@ export default function GestorHomeScreen() {
             style={styles.background}
         >
             <View style={styles.container}>
+                <TouchableOpacity
+                    style={styles.logoutButton}
+                    onPress={() => {
+                        navigation.reset({
+                            index: 0,
+                            routes: [{ name: "Login" }],
+                        });
+                    }}
+                >
+                    <Text style={styles.logoutText}>Cerrar sesión</Text>
+                </TouchableOpacity>
+
 
                 <Text style={styles.title}>Panel del Gestor</Text>
 
@@ -86,5 +98,20 @@ const styles = StyleSheet.create({
         textAlign: "center",
         fontSize: 20,
         fontWeight: "bold"
-    }
+    },
+     logoutButton: {
+        position: "absolute",
+        top: 50,
+        right: 20,
+        backgroundColor: "#00A86B",
+        paddingVertical: 6,
+        paddingHorizontal: 12,
+        borderRadius: 8,
+        zIndex: 20,
+    },
+    logoutText: {
+        color: "white",
+        fontSize: 16,
+        fontWeight: "bold",
+    },
 });
