@@ -59,85 +59,86 @@ export default function LoginScreen() {
             tipoGestor: empleado.tipoGestor ?? empleado.tipo_gestor,
 
           });
-        return;
-      }
+          return;
+        }
 
         alert("Rol de empleado no reconocido");
-      return;
+        return;
+
+      } catch (error) {
+        console.log("No es un empleado, intentando como cliente...");
+      }
+
+      // Login del cliente
+      const cliente = await loginUsuario(usuario, password);
+      console.log("Cliente logueado:", cliente);
+
+      await AsyncStorage.setItem("usuario", JSON.stringify(cliente));
+
+      navigation.replace("ClientHome", { user: cliente });
 
     } catch (error) {
-      console.log("No es un empleado, intentando como cliente...");
+      alert("Credenciales incorrectas");
     }
+  };
 
-    // Login del cliente
-    const cliente = await loginUsuario(usuario, password);
-    console.log("Cliente logueado:", cliente);
-
-    await AsyncStorage.setItem("usuario", JSON.stringify(cliente));
-
-    navigation.replace("ClientHome", { user: cliente });
-
-  } catch (error) {
-    alert("Credenciales incorrectas");
-  }
-};
-
-return (
-  <ImageBackground
-    source={require("../../../assets/fondos/FondoInicioDos.png")}
-    style={styles.background}
-  >
-    <View style={styles.container}>
+  return (
+    <ImageBackground
+      source={require("../../../assets/fondos/FondoInicioDos.png")}
+      style={styles.background}
+    >
+      <View style={styles.container}>
 
 
-      <View style={{ marginTop: 80, width: "100%" }}>
-        <TextInput
-          style={styles.input}
-          placeholder="Usuario"
-          placeholderTextColor="#666"
-          value={usuario}
-          onChangeText={setUsuario}
-        />
+        <View style={{ marginTop: 80, width: "100%" }}>
+          <TextInput
+            style={styles.input}
+            placeholder="Usuario"
+            placeholderTextColor="#666"
+            value={usuario}
+            onChangeText={setUsuario}
+          />
 
-        <TextInput
-          style={styles.input}
-          placeholder="Contraseña"
-          placeholderTextColor="#666"
-          secureTextEntry
-          value={password}
-          onChangeText={setPassword}
-        />
-      </View>
+          <TextInput
+            style={styles.input}
+            placeholder="Contraseña"
+            placeholderTextColor="#666"
+            secureTextEntry
+            value={password}
+            onChangeText={setPassword}
+          />
+        </View>
 
-      <View style={styles.linksRow}>
-        <TouchableOpacity onPress={() => navigation.navigate("Register")}>
-          <Text style={styles.linkText}>Registrarse</Text>
+        <View style={styles.linksRow}>
+          <TouchableOpacity onPress={() => navigation.navigate("Register")}>
+            <Text style={styles.linkText}>Registrarse</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity onPress={() => navigation.navigate("RecuperarPassword")}>
+            <Text style={styles.linkText}>¿Olvidó Contraseña?</Text>
+          </TouchableOpacity>
+
+        </View>
+
+        {/* Botón principal */}
+        <TouchableOpacity
+          style={styles.button}
+          onPress={handleLogin}
+        >
+          <Text style={styles.buttonText}>Entrar</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity>
-          <Text style={styles.linkText}>¿Olvidó Contraseña?</Text>
+
+        <TouchableOpacity
+          style={[styles.button, { marginTop: 15 }]}
+          onPress={() => navigation.navigate("ClientHome")}
+        >
+          <Text style={styles.buttonText}>Entrar sin cuenta</Text>
         </TouchableOpacity>
+
       </View>
-
-      {/* Botón principal */}
-      <TouchableOpacity
-        style={styles.button}
-        onPress={handleLogin}
-      >
-        <Text style={styles.buttonText}>Entrar</Text>
-      </TouchableOpacity>
-
-
-      <TouchableOpacity
-        style={[styles.button, { marginTop: 15 }]}
-        onPress={() => navigation.navigate("ClientHome")}
-      >
-        <Text style={styles.buttonText}>Entrar sin cuenta</Text>
-      </TouchableOpacity>
-
-    </View>
-  </ImageBackground>
-);
+    </ImageBackground>
+  );
 }
 
 const styles = StyleSheet.create({

@@ -16,6 +16,7 @@ import EditarPropiedad from "../screens/AdminScreens/EditarPropiedad";
 import GestorHome from "../screens/GestorScreens/GestorHome";
 import GestorGestionarCitas from "../screens/GestorScreens/GestorGestionarCitas";
 import GestorCitas from "../screens/GestorScreens/GestorCitas";
+import RecuperarContrasena from "../screens/ContrasenaScreens/RecuperarContrasena";
 
 // Tipos de navegación SOLO para lo que usas ahora
 export type RootStackParamList = {
@@ -55,6 +56,8 @@ export type RootStackParamList = {
     GestionCita: {
         cita: any;
     };
+    RecuperarPassword: undefined;
+
 
 
 };
@@ -144,6 +147,12 @@ export default function RootNavigator() {
                     component={GestorGestionarCitas}
                     options={{ headerShown: false }}
                 />
+                <Stack.Screen
+                    name="RecuperarPassword"
+                    component={RecuperarContrasena}
+                    options={{ headerShown: false }}
+                />
+
 
 
             </Stack.Navigator>

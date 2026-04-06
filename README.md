@@ -91,4 +91,4 @@ Si usas móvil físico: cambia localhost por tu IP local, por ejemplo:
 # AUTOR
 **GABRIEL DAVID GELVIZ MONTERREY**
 
-[text](src/docs/manualUsuario.txt)
+[Manual de Usuario](src/docs/manualUsuario.txt)
