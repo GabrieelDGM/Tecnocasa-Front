@@ -1,0 +1,76 @@
+MANUAL DE USUARIO – Aplicación Móvil TecnoCasa
+
+Introducción
+La aplicación móvil TecnoCasa ha sido diseñada para facilitar la gestión de propiedades y citas dentro del entorno inmobiliario. Está dirigida a tres tipos de usuarios: clientes, gestores y administradores.
+
+Este manual tiene como objetivo explicar el funcionamiento de la aplicación, la navegación entre sus pantallas y las funcionalidades disponibles según el rol del usuario.
+
+La aplicación se ejecuta mediante Expo y se encuentra conectada al backend del proyecto.
+
+Acceso a la aplicación
+
+Al iniciar la aplicación, se mostrará la pantalla de inicio de sesión.
+
+Datos requeridos:
+Usuario
+Contraseña
+
+Una vez introducidas las credenciales correctamente, la aplicación identificará automáticamente el rol del usuario y lo redirigirá a su panel correspondiente:
+
+Administrador
+Gestor
+Cliente
+
+Navegación general
+
+La aplicación presenta una interfaz intuitiva basada en botones grandes y visibles, facilitando su uso.
+
+En la mayoría de las pantallas se incluyen:
+
+Botón de volver (cuando aplica)
+Botón de cerrar sesión, ubicado en la parte superior derecha
+Fondos personalizados que mejoran la experiencia visual
+
+Rol Administrador
+
+El administrador dispone de acceso completo a la gestión del catálogo de propiedades.
+Funciones disponibles:
+Visualización de propiedades
+Modificación de propiedades
+Cerrar sesión
+
+Rol Gestor
+El gestor es responsable de administrar las citas que tiene asignadas.
+
+Funciones :
+Visualización de citas asignadas
+Detalle de la cita
+Confirmar cita
+Cerrar sesión
+
+Rol Cliente
+El cliente puede consultar propiedades y solicitar citas.
+Funciones disponibles:
+Visualización de propiedades
+Solicitud de cita
+Visualización de citas propias
+Cerrar sesión
+
+Pantallas principales
+
+Pantalla de Login
+Pantalla principal( Cada rol tiene una pantalla principal)
+Pantalla de Citas
+Pantalla de Gestión de Citas
+Pantalla de Propiedades (Administrador / Cliente)
+Pantalla de Edición de Propiedad (Administrador)
+Cerrar Sesion
+En las pantallas principales se dispone de un botón de “Cerrar sesión”.
+
+Recomendaciones de uso:
+Mantener una conexión a internet estable
+Asegurarse de que el backend esté en funcionamiento
+En dispositivos físicos, comprobar que estén en la misma red que el servidor
+
+Autor
+GABRIEL DAVID GELVIZ MONTERREY
