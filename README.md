@@ -85,8 +85,10 @@ Si usas móvil físico: cambia localhost por tu IP local, por ejemplo:
 ![alt text](image-2.png)
 
 # Estructura del proyecto
-![alt text](image-3.png)
+![alt text](image-4.png)
 
 
 # AUTOR
 **GABRIEL DAVID GELVIZ MONTERREY**
+
+[Manual de Usuario](src/docs/manualUsuario.txt)
