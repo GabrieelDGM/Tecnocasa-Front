@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { View, Text, StyleSheet, Pressable, ScrollView, ImageBackground } from "react-native";
-import { useRoute, useNavigation, RouteProp, NavigationProp } from "@react-navigation/native";
+import { useRoute, useNavigation, RouteProp, NavigationProp, useFocusEffect } from "@react-navigation/native";
 import { RootStackParamList } from "../../navigation/RootNavigation";
 import { getCitasPorGestor } from "../../api/CitaApi";
 
@@ -24,19 +24,20 @@ export default function GestorCitas() {
 
     const [citas, setCitas] = useState<Cita[]>([]);
 
-    useEffect(() => {
-        const cargarCitas = async () => {
-            try {
-                const data = await getCitasPorGestor(gestorId);
-                console.log("CITAS RECIBIDAS:", data);
-                setCitas(Array.isArray(data) ? data : []);
-            } catch (error) {
-                console.log("Error cargando citas:", error);
-            }
-        };
+    useFocusEffect(
+        useCallback(() => {
+            const cargarCitas = async () => {
+                try {
+                    const data = await getCitasPorGestor(gestorId);
+                    setCitas(Array.isArray(data) ? data : []);
+                } catch (error) {
+                    console.log("Error cargando citas:", error);
+                }
+            };
 
-        cargarCitas();
-    }, []);
+            cargarCitas();
+        }, [gestorId])
+    );
 
     return (
         <ImageBackground
