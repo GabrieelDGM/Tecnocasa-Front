@@ -44,12 +44,12 @@ export default function GestorCitas() {
             source={require("../../../assets/fondos/FondoClienteUno.png")}
             style={styles.background}
         >
-            {/* Botón fijo */}
+            
             <Pressable style={styles.backButton} onPress={() => navigation.goBack()}>
                 <Text style={styles.backText}>Volver</Text>
             </Pressable>
 
-            {/* Contenido estructurado */}
+        
             <View style={styles.content}>
                 <Text style={styles.title}>Citas asignadas</Text>
 
@@ -57,7 +57,7 @@ export default function GestorCitas() {
                     <Text style={styles.noCitas}>No hay citas asignadas.</Text>
                 )}
 
-                {/* SOLO las cards hacen scroll */}
+              
                 <ScrollView
                     style={styles.scroll}
                     contentContainerStyle={styles.scrollContent}
