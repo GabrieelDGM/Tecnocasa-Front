@@ -82,10 +82,10 @@ Si usas móvil físico: cambia localhost por tu IP local, por ejemplo:
 
 
 # Navegaciones y pantallas
-![alt text](image-2.png)
+![alt text](image-6.png)
 
 # Estructura del proyecto
-![alt text](image-4.png)
+![g](image-7.png)
 
 
 # AUTOR

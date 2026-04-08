@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, ImageBackground, Image, ScrollView, TouchableOpacity, Linking } from "react-native";
+import { View, Text, StyleSheet, ImageBackground, Image, ScrollView, TouchableOpacity, Linking, Alert } from "react-native";
 import { useRoute, useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../../navigation/RootNavigation";
@@ -12,7 +12,7 @@ export default function PropertyDetailScreen() {
     const navigation = useNavigation<NavProp>();
     const route = useRoute();
     const { propiedad }: any = route.params;
-    const [usuario, setUsuario] = useState(null);
+    const [usuario, setUsuario] = useState();
 
     useEffect(() => {
         const cargarUsuario = async () => {

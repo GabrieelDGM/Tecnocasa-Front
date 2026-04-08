@@ -128,10 +128,12 @@ export default function LoginScreen() {
           <Text style={styles.buttonText}>Entrar</Text>
         </TouchableOpacity>
 
-
         <TouchableOpacity
           style={[styles.button, { marginTop: 15 }]}
-          onPress={() => navigation.navigate("ClientHome")}
+          onPress={async () => {
+            await AsyncStorage.removeItem("usuario");
+            navigation.navigate("ClientHome");
+          }}
         >
           <Text style={styles.buttonText}>Entrar sin cuenta</Text>
         </TouchableOpacity>

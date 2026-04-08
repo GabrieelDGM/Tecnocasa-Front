@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../../navigation/RootNavigation";
 import { getPropiedades } from "../../api/propiedades.api";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 
 type Propiedad = {
@@ -54,7 +55,8 @@ export default function ClientHomeScreen() {
                 <Text style={styles.bienvenida}>Bienvenido</Text>
                 <TouchableOpacity
                     style={styles.logoutButton}
-                    onPress={() => {
+                    onPress={async () => {
+                        await AsyncStorage.removeItem("usuario");
                         navigation.reset({
                             index: 0,
                             routes: [{ name: "Login" }],
